@@ -20,7 +20,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	die;
 }
 
-define( 'UBC_WP_VOTE_VERSION', '1.0.0' );
+define( 'UBC_WP_VOTE_VERSION', '0.0.1' );
 define( 'UBC_WP_VOTE_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 define( 'UBC_WP_VOTE_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 
