@@ -1,11 +1,11 @@
 <?php
 /**
  * Plugin Name:       UBC WP Vote
- * Plugin URI:        https://www.ubc.ca/
+ * Plugin URI:        https://github.com/ubc/ubc-wp-vote
  * Description:       The plugin provide mechanism for login user to like, dislike and rate posts and post comments.
  * Version:           1.0.0
  * Author:            Richard Tape, Kelvin Xu and Dhaneshwari Patel
- * Author URI:        https://www.ubc.ca/
+ * Author URI:         https://ctlt.ubc.ca/
  * License:           GPL-2.0+
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
  * Text Domain:       ubc-wp-vote
