@@ -11,3 +11,5 @@ namespace UBC\CTLT\WPVote\Activation;
 if ( ! defined( 'ABSPATH' ) ) {
 	die;
 }
+
+\UBC\CTLT\WPVote\WP_Vote_DB::create_tables();
