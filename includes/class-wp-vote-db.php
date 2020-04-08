@@ -23,19 +23,21 @@ class WP_Vote_DB {
 	 */
 	public static function create_tables() {
 		global $wpdb;
-		$charset_collate = $wpdb->get_charset_collate();
-		$table_name = $wpdb->base_prefix . 'ubc_wp_vote';
+		$charset_collate = sanitize_key( $wpdb->get_charset_collate() );
+		$table_name = sanitize_key( $wpdb->base_prefix . 'ubc_wp_vote' );
 
-		$sql = "CREATE TABLE IF NOT EXISTS $table_name (
-			id INT NOT NULL AUTO_INCREMENT,
-			user_id INT NOT NULL,
-			site_id INT NOT NULL,
-			object_id INT NOT NULL,
-			object_type VARCHAR(10) NOT NULL,
-			rubric_id INT NOT NULL,
-			vote_data INT NOT NULL,
-			UNIQUE KEY id (id)
-		) $charset_collate;";
+		$sql = esc_sql(
+			"CREATE TABLE IF NOT EXISTS $table_name (
+				id INT NOT NULL AUTO_INCREMENT,
+				user_id INT NOT NULL,
+				site_id INT NOT NULL,
+				object_id INT NOT NULL,
+				object_type VARCHAR(10) NOT NULL,
+				rubric_id INT NOT NULL,
+				vote_data VARCHAR(255) NOT NULL,
+				UNIQUE KEY id (id)
+			) $charset_collate;"
+		);
 
 		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 		dbDelta( $sql );
