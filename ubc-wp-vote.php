@@ -32,11 +32,11 @@ register_deactivation_hook( __FILE__, __NAMESPACE__ . '\\deactivate' );
  */
 function activate() {
 	require_once UBC_WP_VOTE_PLUGIN_DIR . 'includes/01-activation.php';
-}
+}//end activate()
 
 /**
  * Actions performs on plugin deactivation
  */
 function deactivate() {
 	require_once UBC_WP_VOTE_PLUGIN_DIR . 'includes/01-deactivation.php';
-}
+}//end deactivate()
