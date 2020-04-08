@@ -31,12 +31,12 @@ register_deactivation_hook( __FILE__, __NAMESPACE__ . '\\deactivate' );
  * Actions performs on plugin activation
  */
 function activate() {
-	require_once CTLT_REPORT_GENERATOR_PLUGIN_DIR . 'includes/01-activation.php';
+	require_once UBC_WP_VOTE_PLUGIN_DIR . 'includes/01-activation.php';
 }
 
 /**
  * Actions performs on plugin deactivation
  */
 function deactivate() {
-	require_once CTLT_REPORT_GENERATOR_PLUGIN_DIR . 'includes/01-deactivation.php';
+	require_once UBC_WP_VOTE_PLUGIN_URL . 'includes/01-deactivation.php';
 }
