@@ -38,5 +38,5 @@ function activate() {
  * Actions performs on plugin deactivation
  */
 function deactivate() {
-	require_once UBC_WP_VOTE_PLUGIN_URL . 'includes/01-deactivation.php';
+	require_once UBC_WP_VOTE_PLUGIN_DIR . 'includes/01-deactivation.php';
 }
