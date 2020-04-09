@@ -135,22 +135,3 @@ class WP_Vote_DB {
 		return $result;
 	}//end get_vote_meta()
 }
-
-function write_log( $log ) {
-	if ( is_array( $log ) || is_object( $log ) ) {
-		error_log( print_r( $log, true ) );
-	} else {
-		error_log( $log );
-	}
-}
-
-$result = WP_Vote_DB::update_vote_meta(
-	array(
-		'user_id' => 3,
-		'site_id' => 2,
-		'object_id' => 3,
-		'rubric_id' => 4,
-		'object_type' => 'comment',
-		'vote_data' => 'are you kidding me'
-	)
-);
