@@ -122,7 +122,11 @@ class WP_Vote_DB {
 			$query_param[] = 'object_type = "' . sanitize_key( $args['object_type'] ) . '"';
 		}
 
-		$result = 0 !== count( $query_param ) ? $wpdb->get_results( "SELECT vote_data from $table_name WHERE " . join( ' AND ', $query_param ) ) : $wpdb->get_results( "SELECT vote_data from $table_name" );
+		if ( 0 !== count( $query_param ) ) {
+			$result = $wpdb->get_results( "SELECT vote_data from $table_name WHERE " . join( ' AND ', $query_param ) );
+		} else {
+			$result = $wpdb->get_results( "SELECT vote_data from $table_name" );
+		}
 
 		if ( 0 === count( $result ) ) {
 			return false;
@@ -131,3 +135,22 @@ class WP_Vote_DB {
 		return $result;
 	}//end get_vote_meta()
 }
+
+function write_log( $log ) {
+	if ( is_array( $log ) || is_object( $log ) ) {
+		error_log( print_r( $log, true ) );
+	} else {
+		error_log( $log );
+	}
+}
+
+$result = WP_Vote_DB::update_vote_meta(
+	array(
+		'user_id' => 3,
+		'site_id' => 2,
+		'object_id' => 3,
+		'rubric_id' => 4,
+		'object_type' => 'comment',
+		'vote_data' => 'are you kidding me'
+	)
+);
