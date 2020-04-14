@@ -141,7 +141,52 @@ class WP_Vote {
 		);
 
 		// Insert to meta table based on object_type.
-		if ( 'post' === isset( $args['object_type'] ) ) {
+		if ( 'comment' === $object_type ) {
+			$total_vote_count = intval( get_post_meta( $object_id, $meta_key_total, true ) );
+			$average_vote = intval( get_post_meta( $object_id, $meta_key_average, true ) );
+
+			if ( 'false' === $total_vote_count || 'false' === $average_vote ) {
+				add_comment_meta(
+					$object_id,
+					$meta_key_total,
+					'1',
+					true
+				);
+
+				add_comment_meta(
+					$object_id,
+					$meta_key_average,
+					'1',
+					true
+				);
+			}
+
+			// Update post meta.
+
+			// Update vote total only if user haven't vote for this post before.
+			if ( false === $existing_vote_data ) {
+				update_comment_meta(
+					$object_id,
+					$meta_key_total,
+					$total_vote_count + 1,
+					true
+				);
+
+				update_comment_meta(
+					$object_id,
+					$meta_key_average,
+					round( ( $average_vote * $total_vote_count + $vote_data ) / ( $total_vote_count + 1 ) ),
+					true
+				);
+			}
+
+			update_comment_meta(
+				$object_id,
+				$meta_key_average,
+				round( ( $average_vote * $total_vote_count + $vote_data - intval( $existing_vote_data ) ) / ( $total_vote_count ) ),
+				true
+			);
+		} else {
 			$total_vote_count = intval( get_post_meta( $object_id, $meta_key_total, true ) );
 			$average_vote = intval( get_post_meta( $object_id, $meta_key_average, true ) );
 
@@ -182,53 +227,6 @@ class WP_Vote {
 
 			// If user already voted for this post before.
 			update_post_meta(
-				$object_id,
-				$meta_key_average,
-				round( ( $average_vote * $total_vote_count + $vote_data - intval( $existing_vote_data ) ) / ( $total_vote_count ) ),
-				true
-			);
-		}
-
-		if ( 'comment' === isset( $args['object_type'] ) ) {
-			$total_vote_count = intval( get_post_meta( $object_id, $meta_key_total, true ) );
-			$average_vote = intval( get_post_meta( $object_id, $meta_key_average, true ) );
-
-			if ( 'false' === $total_vote_count || 'false' === $average_vote ) {
-				add_comment_meta(
-					$object_id,
-					$meta_key_total,
-					'1',
-					true
-				);
-
-				add_comment_meta(
-					$object_id,
-					$meta_key_average,
-					'1',
-					true
-				);
-			}
-
-			// Update post meta.
-
-			// Update vote total only if user haven't vote for this post before.
-			if ( false === $existing_vote_data ) {
-				update_comment_meta(
-					$object_id,
-					$meta_key_total,
-					$total_vote_count + 1,
-					true
-				);
-
-				update_comment_meta(
-					$object_id,
-					$meta_key_average,
-					round( ( $average_vote * $total_vote_count + $vote_data ) / ( $total_vote_count + 1 ) ),
-					true
-				);
-			}
-
-			update_comment_meta(
 				$object_id,
 				$meta_key_average,
 				round( ( $average_vote * $total_vote_count + $vote_data - intval( $existing_vote_data ) ) / ( $total_vote_count ) ),
@@ -278,27 +276,7 @@ class WP_Vote {
 		);
 
 		// Insert to meta table based on object_type.
-		if ( 'post' === isset( $args['object_type'] ) ) {
-			$total_vote = get_post_meta( $object_id, $meta_key, true );
-
-			if ( 'false' === $total_vote && '0' === $vote_data ) {
-				return false;
-			}
-
-			if ( 'false' === $total_vote && '1' === $vote_data ) {
-				add_post_meta( $object_id, $meta_key, $vote_data, true );
-			}
-
-			// Update post meta.
-			update_post_meta(
-				$object_id,
-				$meta_key,
-				'1' === $vote_data ? intval( $total_vote ) + 1 : intval( $total_vote ) - 1,
-				true
-			);
-		}
-
-		if ( 'comment' === isset( $args['object_type'] ) ) {
+		if ( 'comment' === $object_type ) {
 			$total_vote = get_comment_meta( $object_id, $meta_key, true );
 
 			// Create comment_meta entry if no one has upvoted this post.
@@ -312,6 +290,24 @@ class WP_Vote {
 
 			// Update comment meta.
 			update_comment_meta(
+				$object_id,
+				$meta_key,
+				'1' === $vote_data ? intval( $total_vote ) + 1 : intval( $total_vote ) - 1,
+				true
+			);
+		} else {
+			$total_vote = get_post_meta( $object_id, $meta_key, true );
+
+			if ( 'false' === $total_vote && '0' === $vote_data ) {
+				return false;
+			}
+
+			if ( 'false' === $total_vote && '1' === $vote_data ) {
+				add_post_meta( $object_id, $meta_key, $vote_data, true );
+			}
+
+			// Update post meta.
+			update_post_meta(
 				$object_id,
 				$meta_key,
 				'1' === $vote_data ? intval( $total_vote ) + 1 : intval( $total_vote ) - 1,
