@@ -16,13 +16,88 @@ namespace UBC\CTLT\WPVote;
 class WP_Vote {
 
 	/**
+	 * Get object total number of up vote.
+	 *
+	 * @param [array] $args array of args related to up vote.
+	 * @return boolean|string
+	 */
+	public static function get_up_vote( $args ) {
+		if ( ! $args || ! isset( $args['object_type'] ) || isset( $args['object_id'] ) ) {
+			return false;
+		}
+		$object_id = intval( $args['object_id'] );
+		$object_type = sanitize_key( $args['object_type'] );
+		$rubric = get_page_by_title( 'Upvote', 'OBJECT', 'ubc_wp_vote_rubric' );
+		if ( ! $rubric ) {
+			return false;
+		}
+		$rubric_id = intval( $rubric->ID );
+		$meta_key_total = 'ubc_wp_vote_' . $rubic_id . '_total';
+
+		return 'comment' === $object_type ? get_comment_meta( $object_id, $meta_key_total, true ) : get_post_meta( $object_id, $meta_key_total, true );
+	}
+
+	/**
+	 * Get object total number of down vote.
+	 *
+	 * @param [array] $args array of args related to up vote.
+	 * @return boolean|string
+	 */
+	public static function get_down_vote( $args ) {
+		if ( ! $args || ! isset( $args['object_type'] ) || isset( $args['object_id'] ) ) {
+			return false;
+		}
+		$object_id = intval( $args['object_id'] );
+		$object_type = sanitize_key( $args['object_type'] );
+		$rubric = get_page_by_title( 'Downvote', 'OBJECT', 'ubc_wp_vote_rubric' );
+		if ( ! $rubric ) {
+			return false;
+		}
+		$rubric_id = intval( $rubric->ID );
+		$meta_key_total = 'ubc_wp_vote_' . $rubic_id . '_total';
+
+		return 'comment' === $object_type ? get_comment_meta( $object_id, $meta_key_total, true ) : get_post_meta( $object_id, $meta_key_total, true );
+	}
+
+	/**
+	 * Get object total count of rate and average rate.
+	 *
+	 * @param [array] $args array of args related to up vote.
+	 * @return boolean|object
+	 */
+	public static function get_rate( $args ) {
+		if ( ! $args || ! isset( $args['object_type'] ) || isset( $args['object_id'] ) ) {
+			return false;
+		}
+		$object_id = intval( $args['object_id'] );
+		$object_type = sanitize_key( $args['object_type'] );
+		$rubric = get_page_by_title( 'Rate', 'OBJECT', 'ubc_wp_vote_rubric' );
+		if ( ! $rubric ) {
+			return false;
+		}
+		$rubric_id = intval( $rubric->ID );
+		$meta_key_total = 'ubc_wp_vote_' . $rubic_id . '_total';
+		$meta_key_average = 'ubc_wp_vote_' . $rubic_id . '_average';
+
+		return 'comment' === $object_type ?
+			array(
+				'total' => get_comment_meta( $object_id, $meta_key_total, true ),
+				'average' => get_comment_meta( $object_id, $meta_key_average, true ),
+			) :
+			array(
+				'total' => get_post_meta( $object_id, $meta_key_total, true ),
+				'average' => get_post_meta( $object_id, $meta_key_average, true ),
+			);
+	}
+
+	/**
 	 * Function to be run after up vote actions received.
 	 *
 	 * @since 0.0.1
 	 * @param [array] $args array of args related to up vote.
 	 * @return {boolean} True on success, false on fail
 	 */
-	public static function up_vote( $args ) {
+	public static function do_up_vote( $args ) {
 		if ( ! $args || ! isset( $args['object_type'] ) || isset( $args['object_id'] ) ) {
 			return false;
 		}
@@ -38,7 +113,7 @@ class WP_Vote {
 		}
 		$rubric_id = intval( $rubric->ID );
 		self::update_meta_total( $user_id, $site_id, $rubric_id, $object_id, $object_type );
-	}//end up_vote()
+	}//end do_up_vote()
 
 	/**
 	 * Function to be run after down vote actions received.
@@ -47,7 +122,7 @@ class WP_Vote {
 	 * @param [array] $args array of args related to down vote.
 	 * @return {boolean} True on success, false on fail
 	 */
-	public static function down_vote( $args ) {
+	public static function do_down_vote( $args ) {
 		if ( ! $args || ! isset( $args['object_type'] ) || isset( $args['object_id'] ) ) {
 			return false;
 		}
@@ -64,7 +139,7 @@ class WP_Vote {
 
 		$rubric_id = intval( $rubric->ID );
 		self::update_meta_total( $user_id, $site_id, $rubric_id, $object_id, $object_type );
-	}//end down_vote()
+	}//end do_down_vote()
 
 	/**
 	 * Function to be run after rate actions received.
@@ -73,7 +148,7 @@ class WP_Vote {
 	 * @param [array] $args array of args related to rate.
 	 * @return {boolean} True on success, false on fail
 	 */
-	public static function rate( $args ) {
+	public static function do_rate( $args ) {
 		if ( ! $args || ! isset( $args['object_type'] ) || isset( $args['object_id'] ) || isset( $args['vote_data'] ) ) {
 			return false;
 		}
@@ -90,8 +165,8 @@ class WP_Vote {
 		}
 
 		$rubric_id = intval( $rubric->ID );
-		self::update_meta_total( $user_id, $site_id, $rubric_id, $object_id, $object_type, $vote_data );
-	}//end rate()
+		self::update_meta_average( $user_id, $site_id, $rubric_id, $object_id, $object_type, $vote_data );
+	}//end do_rate()
 
 	/**
 	 * Generic function to provide functionality to update AVERAGE type of rubrics.
