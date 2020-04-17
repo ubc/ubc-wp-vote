@@ -41,7 +41,7 @@ function register_admin_menus() {
 		'ubc_wp_vote_settings',
 		__NAMESPACE__ . '\\render_settings_page'
 	);
-}
+}//end register_admin_menus()
 
 /**
  * Render php template for plugin settings page.
@@ -50,5 +50,5 @@ function register_admin_menus() {
  */
 function render_settings_page() {
 	require_once UBC_WP_VOTE_PLUGIN_DIR . 'includes/views/settings.php';
-}
+}//end render_settings_page()
 

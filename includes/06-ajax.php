@@ -40,7 +40,7 @@ function ubc_ctlt_wp_vote_upvote() {
 	}
 
 	wp_die();
-}
+}//end ubc_ctlt_wp_vote_upvote()
 
 /**
  * Ajax handler for downvote toggle action.
@@ -65,7 +65,7 @@ function ubc_ctlt_wp_vote_downvote() {
 	}
 
 	wp_die();
-}
+}//end ubc_ctlt_wp_vote_downvote()
 
 /**
  * Ajax handler for rating action.
@@ -97,4 +97,4 @@ function ubc_ctlt_wp_vote_rating() {
 	);
 	wp_star_rating( $args );
 	wp_die();
-}
+}//end ubc_ctlt_wp_vote_rating()

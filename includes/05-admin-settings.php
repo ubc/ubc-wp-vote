@@ -22,4 +22,4 @@ add_action( 'admin_init', __NAMESPACE__ . '\\register_admin_settings' );
  */
 function register_admin_settings() {
 	register_setting( 'ubc_wp_vote', 'ubc_wp_vote_valid_post_types' );
-}
+}//end register_admin_settings()

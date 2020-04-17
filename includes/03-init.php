@@ -61,7 +61,7 @@ function load_styles_scripts() {
 		);
 		wp_enqueue_style( 'ctlt_wp_vote_object_content_actions_css' );
 	}
-}
+}//end load_styles_scripts()
 
 /**
  * Render rubric actions at the bottom of post content area.
@@ -87,7 +87,7 @@ function render_post_content_actions() {
 		$object_id = get_the_ID();
 		include UBC_WP_VOTE_PLUGIN_DIR . 'includes/views/object-content-actions.php';
 	}
-}
+}//end render_post_content_actions()
 
 /**
  * Render rubric actions at the bottom of comment content area.
@@ -99,4 +99,4 @@ function render_comment_content_actions() {
 	$object_id = get_comment_ID();
 
 	include UBC_WP_VOTE_PLUGIN_DIR . 'includes/views/object-content-actions.php';
-}
+}//end render_comment_content_actions()

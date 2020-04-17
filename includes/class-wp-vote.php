@@ -16,10 +16,10 @@ namespace UBC\CTLT\WPVote;
 class WP_Vote {
 
 	/**
-	 * Get object total number of up vote.
+	 * Get current object total number of up vote.
 	 *
 	 * @param [array] $args array of args related to up vote.
-	 * @return boolean|string
+	 * @return int
 	 */
 	public static function get_object_total_up_vote( $args ) {
 		if ( ! isset( $args['object_type'] ) || ! isset( $args['object_id'] ) ) {
@@ -34,14 +34,14 @@ class WP_Vote {
 		$rubric_id = intval( $rubric->ID );
 		$meta_key_total = 'ubc_wp_vote_' . $rubric_id . '_total';
 
-		return 'comment' === $object_type ? get_comment_meta( $object_id, $meta_key_total, true ) : get_post_meta( $object_id, $meta_key_total, true );
+		return 'comment' === $object_type ? intval( get_comment_meta( $object_id, $meta_key_total, true ) ) : intval( get_post_meta( $object_id, $meta_key_total, true ) );
 	}//end get_object_total_up_vote()
 
 	/**
-	 * Get object up vote status for current user.
+	 * Get current object up vote status for current user.
 	 *
 	 * @param [array] $args array of args related to up vote.
-	 * @return boolean|string
+	 * @return int
 	 */
 	public static function get_object_current_user_up_vote( $args ) {
 		if ( ! isset( $args['object_type'] ) || ! isset( $args['object_id'] ) ) {
@@ -69,11 +69,11 @@ class WP_Vote {
 			)
 		);
 
-		return is_array( $vote_data ) && 1 === count( $vote_data ) ? $vote_data[0]->vote_data : '0';
+		return is_array( $vote_data ) && 1 === count( $vote_data ) ? intval( $vote_data[0]->vote_data ) : 0;
 	}//end get_object_current_user_up_vote()
 
 	/**
-	 * Function to be run after up vote actions received.
+	 * Update current user vote status on current object.
 	 *
 	 * @since 0.0.1
 	 * @param [array] $args array of args related to up vote.
@@ -99,10 +99,10 @@ class WP_Vote {
 	}//end do_current_user_up_vote()
 
 	/**
-	 * Get object total number of down vote.
+	 * Get current object total number of down vote.
 	 *
 	 * @param [array] $args array of args related to up vote.
-	 * @return boolean|string
+	 * @return int
 	 */
 	public static function get_object_total_down_vote( $args ) {
 		if ( ! isset( $args['object_type'] ) || ! isset( $args['object_id'] ) ) {
@@ -117,14 +117,14 @@ class WP_Vote {
 		$rubric_id = intval( $rubric->ID );
 		$meta_key_total = 'ubc_wp_vote_' . $rubric_id . '_total';
 
-		return 'comment' === $object_type ? get_comment_meta( $object_id, $meta_key_total, true ) : get_post_meta( $object_id, $meta_key_total, true );
+		return 'comment' === $object_type ? intval( get_comment_meta( $object_id, $meta_key_total, true ) ) : intval( get_post_meta( $object_id, $meta_key_total, true ) );
 	}//end get_object_total_down_vote()
 
 	/**
-	 * Get object down vote status for current user.
+	 * Get current object down vote status for current user.
 	 *
 	 * @param [array] $args array of args related to up vote.
-	 * @return boolean|string
+	 * @return int
 	 */
 	public static function get_object_current_user_down_vote( $args ) {
 		if ( ! isset( $args['object_type'] ) || ! isset( $args['object_id'] ) ) {
@@ -152,11 +152,11 @@ class WP_Vote {
 			)
 		);
 
-		return is_array( $vote_data ) && 1 === count( $vote_data ) ? $vote_data[0]->vote_data : '0';
+		return is_array( $vote_data ) && 1 === count( $vote_data ) ? intval( $vote_data[0]->vote_data ) : 0;
 	}//end get_object_current_user_down_vote()
 
 	/**
-	 * Function to be run after down vote actions received.
+	 * Update current user vote status on current object.
 	 *
 	 * @since 0.0.1
 	 * @param [array] $args array of args related to down vote.
@@ -182,10 +182,10 @@ class WP_Vote {
 	}//end do_current_user_down_vote()
 
 	/**
-	 * Get object overall average rating.
+	 * Get current object overall average rating.
 	 *
 	 * @param [array] $args array of args related to up vote.
-	 * @return boolean|object
+	 * @return float
 	 */
 	public static function get_object_rate_average( $args ) {
 		if ( ! isset( $args['object_type'] ) || ! isset( $args['object_id'] ) ) {
@@ -200,14 +200,14 @@ class WP_Vote {
 		$rubric_id = intval( $rubric->ID );
 		$meta_key_average = 'ubc_wp_vote_' . $rubric_id . '_average';
 
-		return 'comment' === $object_type ? get_comment_meta( $object_id, $meta_key_average, true ) : get_post_meta( $object_id, $meta_key_average, true );
+		return 'comment' === $object_type ? floatval( get_comment_meta( $object_id, $meta_key_average, true ) ) : floatval( get_post_meta( $object_id, $meta_key_average, true ) );
 	}//end get_object_rate_average()
 
 	/**
 	 * Get object total count of rating.
 	 *
 	 * @param [array] $args array of args related to up vote.
-	 * @return boolean|object
+	 * @return int
 	 */
 	public static function get_object_rate_count( $args ) {
 		if ( ! isset( $args['object_type'] ) || ! isset( $args['object_id'] ) ) {
@@ -222,14 +222,14 @@ class WP_Vote {
 		$rubric_id = intval( $rubric->ID );
 		$meta_key_count = 'ubc_wp_vote_' . $rubric_id . '_count';
 
-		return 'comment' === $object_type ? get_comment_meta( $object_id, $meta_key_count, true ) : get_post_meta( $object_id, $meta_key_count, true );
+		return 'comment' === $object_type ? intval( get_comment_meta( $object_id, $meta_key_count, true ) ) : intval( get_post_meta( $object_id, $meta_key_count, true ) );
 	}//end get_object_rate_count()
 
 	/**
 	 * Get object rating by current user.
 	 *
 	 * @param [array] $args array of args related to up vote.
-	 * @return boolean|object
+	 * @return float
 	 */
 	public static function get_object_current_user_rate( $args ) {
 		if ( ! isset( $args['object_type'] ) || ! isset( $args['object_id'] ) ) {
@@ -257,7 +257,7 @@ class WP_Vote {
 			)
 		);
 
-		return is_array( $vote_data ) && 1 === count( $vote_data ) ? $vote_data[0]->vote_data : false;
+		return is_array( $vote_data ) && 1 === count( $vote_data ) ? floatval( $vote_data[0]->vote_data ) : 0;
 	}//end get_object_current_user_rate()
 
 	/**
