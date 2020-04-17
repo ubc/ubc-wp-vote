@@ -64,7 +64,7 @@ class WP_Vote_DB {
 		);
 
 		if ( false !== $meta ) {
-			$wpdb->query(
+			$result = $wpdb->query(
 				$wpdb->prepare(
 					"UPDATE $table_name SET vote_data = %s WHERE user_id = %d AND site_id = %d AND object_id = %d AND rubric_id = %d AND object_type = %s",
 					$vote_data,
@@ -76,7 +76,7 @@ class WP_Vote_DB {
 				)
 			);
 		} else {
-			$wpdb->query(
+			$result = $wpdb->query(
 				$wpdb->prepare(
 					"INSERT INTO $table_name (user_id, site_id, object_id, rubric_id, object_type, vote_data) VALUES (%d, %d, %d, %d, %s, %s)",
 					$user_id,
@@ -88,6 +88,8 @@ class WP_Vote_DB {
 				)
 			);
 		}
+
+		return false === $result ? false : true;
 	}
 
 	/**
