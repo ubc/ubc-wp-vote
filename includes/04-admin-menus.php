@@ -49,6 +49,6 @@ function register_admin_menus() {
  * @return void
  */
 function render_settings_page() {
-	include UBC_WP_VOTE_PLUGIN_DIR . 'includes/views/settings.php';
+	require_once UBC_WP_VOTE_PLUGIN_DIR . 'includes/views/settings.php';
 }
 
