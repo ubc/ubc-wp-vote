@@ -6,20 +6,9 @@
 	 */
 
 	// Get post types.
-	$post_types = get_post_types(
-		array(
-			'public' => true,
-		),
-		'objects'
-	);
-	$post_types = array_filter(
-		$post_types,
-		function( $post_type ) {
-			return ! in_array( $post_type->name, UBC_WP_VOTE_POST_TYPES_TO_EXCLUDE );
-		}
-	);
+	$object_types = \UBC\CTLT\WPVote\WP_Vote_Settings::get_object_types_options();
 
-	?>
+?>
 
 	<div class="wrap">
 		<h1>Settings</h1>
@@ -33,15 +22,15 @@
 			<section id="group_fields" class="settings">
 				<h2 class="group-fields-heading">Active post types</h2>
 				<ul>
-					<?php foreach ( $post_types as $key => $single_post_type ) : ?>
+					<?php foreach ( $object_types as $single_object_name => $single_object_type ) : ?>
 						<li>
 							<label>
 								<input
 									type="checkbox"
 									name="ubc_wp_vote_valid_post_types[]"
-									value="<?php echo esc_attr( $single_post_type->name ); ?>"
-									<?php echo in_array( $single_post_type->name, $types ) ? 'checked' : ''; ?>
-								> <?php echo esc_html( $single_post_type->label ); ?>
+									value="<?php echo esc_attr( $single_object_name ); ?>"
+									<?php echo in_array( $single_object_name, $types, true ) ? 'checked' : ''; ?>
+								> <?php echo esc_html( $single_object_type->label ); ?>
 							</label>
 						</li>
 					<?php endforeach; ?>

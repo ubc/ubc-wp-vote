@@ -24,13 +24,14 @@
 
     // Vote
     document.addEventListener('click', function ( event ) {
-        event.preventDefault();
 
         if ( event.target.matches('.ubc-wp-vote__thumbs-up') ) {
+            event.preventDefault();
             onThumbsUp( event.target );
         }
 
         if ( event.target.matches('.ubc-wp-vote__thumbs-down') ) {
+            event.preventDefault();
             onThumbsDown( event.target );
         }
 
@@ -90,9 +91,9 @@
 
     // Star Rating
     document.addEventListener('click', function ( event ) {
-        event.preventDefault();
 
         if ( event.target.matches('.ubc-wp-vote__star-rating .ubc-wp-vote_star_rating--current .star') ) {
+            event.preventDefault();
             var rootNode = event.target.closest('.ubc-wp-vote__star-rating');
             var objectId = rootNode.dataset.id;
             var objectType = rootNode.dataset.type;

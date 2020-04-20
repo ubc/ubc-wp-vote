@@ -25,13 +25,13 @@ class WP_Vote {
 		if ( ! isset( $args['object_type'] ) || ! isset( $args['object_id'] ) ) {
 			return false;
 		}
-		$object_id = intval( $args['object_id'] );
+		$object_id   = intval( $args['object_id'] );
 		$object_type = sanitize_key( $args['object_type'] );
-		$rubric = get_page_by_title( 'Upvote', 'OBJECT', 'ubc_wp_vote_rubric' );
+		$rubric      = get_page_by_title( 'Upvote', 'OBJECT', 'ubc_wp_vote_rubric' );
 		if ( ! $rubric ) {
 			return false;
 		}
-		$rubric_id = intval( $rubric->ID );
+		$rubric_id      = intval( $rubric->ID );
 		$meta_key_total = 'ubc_wp_vote_' . $rubric_id . '_total';
 
 		return 'comment' === $object_type ? intval( get_comment_meta( $object_id, $meta_key_total, true ) ) : intval( get_post_meta( $object_id, $meta_key_total, true ) );
@@ -48,23 +48,23 @@ class WP_Vote {
 			return false;
 		}
 
-		$user_id = intval( get_current_user_id() );
-		$site_id = intval( get_current_blog_id() );
-		$object_id = intval( $args['object_id'] );
+		$user_id     = intval( get_current_user_id() );
+		$site_id     = intval( get_current_blog_id() );
+		$object_id   = intval( $args['object_id'] );
 		$object_type = sanitize_key( $args['object_type'] );
-		$rubric = get_page_by_title( 'Upvote', 'OBJECT', 'ubc_wp_vote_rubric' );
+		$rubric      = get_page_by_title( 'Upvote', 'OBJECT', 'ubc_wp_vote_rubric' );
 		if ( ! $rubric ) {
 			return false;
 		}
-		$rubric_id = intval( $rubric->ID );
+		$rubric_id      = intval( $rubric->ID );
 		$meta_key_total = 'ubc_wp_vote_' . $rubric_id . '_total';
 
 		$vote_data = \UBC\CTLT\WPVote\WP_Vote_DB::get_vote_meta(
 			array(
-				'user_id' => $user_id,
-				'site_id' => $site_id,
-				'rubric_id' => $rubric_id,
-				'object_id' => $object_id,
+				'user_id'     => $user_id,
+				'site_id'     => $site_id,
+				'rubric_id'   => $rubric_id,
+				'object_id'   => $object_id,
 				'object_type' => $object_type,
 			)
 		);
@@ -84,10 +84,10 @@ class WP_Vote {
 			return false;
 		}
 
-		$user_id = intval( get_current_user_id() );
-		$site_id = intval( get_current_blog_id() );
-		$rubric = get_page_by_title( 'Upvote', 'OBJECT', 'ubc_wp_vote_rubric' );
-		$object_id = intval( $args['object_id'] );
+		$user_id     = intval( get_current_user_id() );
+		$site_id     = intval( get_current_blog_id() );
+		$rubric      = get_page_by_title( 'Upvote', 'OBJECT', 'ubc_wp_vote_rubric' );
+		$object_id   = intval( $args['object_id'] );
 		$object_type = sanitize_key( $args['object_type'] );
 
 		if ( ! $rubric ) {
@@ -108,13 +108,13 @@ class WP_Vote {
 		if ( ! isset( $args['object_type'] ) || ! isset( $args['object_id'] ) ) {
 			return false;
 		}
-		$object_id = intval( $args['object_id'] );
+		$object_id   = intval( $args['object_id'] );
 		$object_type = sanitize_key( $args['object_type'] );
-		$rubric = get_page_by_title( 'Downvote', 'OBJECT', 'ubc_wp_vote_rubric' );
+		$rubric      = get_page_by_title( 'Downvote', 'OBJECT', 'ubc_wp_vote_rubric' );
 		if ( ! $rubric ) {
 			return false;
 		}
-		$rubric_id = intval( $rubric->ID );
+		$rubric_id      = intval( $rubric->ID );
 		$meta_key_total = 'ubc_wp_vote_' . $rubric_id . '_total';
 
 		return 'comment' === $object_type ? intval( get_comment_meta( $object_id, $meta_key_total, true ) ) : intval( get_post_meta( $object_id, $meta_key_total, true ) );
@@ -131,23 +131,23 @@ class WP_Vote {
 			return false;
 		}
 
-		$user_id = intval( get_current_user_id() );
-		$site_id = intval( get_current_blog_id() );
-		$object_id = intval( $args['object_id'] );
+		$user_id     = intval( get_current_user_id() );
+		$site_id     = intval( get_current_blog_id() );
+		$object_id   = intval( $args['object_id'] );
 		$object_type = sanitize_key( $args['object_type'] );
-		$rubric = get_page_by_title( 'Downvote', 'OBJECT', 'ubc_wp_vote_rubric' );
+		$rubric      = get_page_by_title( 'Downvote', 'OBJECT', 'ubc_wp_vote_rubric' );
 		if ( ! $rubric ) {
 			return false;
 		}
-		$rubric_id = intval( $rubric->ID );
+		$rubric_id      = intval( $rubric->ID );
 		$meta_key_total = 'ubc_wp_vote_' . $rubric_id . '_total';
 
 		$vote_data = \UBC\CTLT\WPVote\WP_Vote_DB::get_vote_meta(
 			array(
-				'user_id' => $user_id,
-				'site_id' => $site_id,
-				'rubric_id' => $rubric_id,
-				'object_id' => $object_id,
+				'user_id'     => $user_id,
+				'site_id'     => $site_id,
+				'rubric_id'   => $rubric_id,
+				'object_id'   => $object_id,
 				'object_type' => $object_type,
 			)
 		);
@@ -167,10 +167,10 @@ class WP_Vote {
 			return false;
 		}
 
-		$user_id = intval( get_current_user_id() );
-		$site_id = intval( get_current_blog_id() );
-		$rubric = get_page_by_title( 'Downvote', 'OBJECT', 'ubc_wp_vote_rubric' );
-		$object_id = intval( $args['object_id'] );
+		$user_id     = intval( get_current_user_id() );
+		$site_id     = intval( get_current_blog_id() );
+		$rubric      = get_page_by_title( 'Downvote', 'OBJECT', 'ubc_wp_vote_rubric' );
+		$object_id   = intval( $args['object_id'] );
 		$object_type = sanitize_key( $args['object_type'] );
 
 		if ( ! $rubric ) {
@@ -191,13 +191,13 @@ class WP_Vote {
 		if ( ! isset( $args['object_type'] ) || ! isset( $args['object_id'] ) ) {
 			return false;
 		}
-		$object_id = intval( $args['object_id'] );
+		$object_id   = intval( $args['object_id'] );
 		$object_type = sanitize_key( $args['object_type'] );
-		$rubric = get_page_by_title( 'Rate', 'OBJECT', 'ubc_wp_vote_rubric' );
+		$rubric      = get_page_by_title( 'Rate', 'OBJECT', 'ubc_wp_vote_rubric' );
 		if ( ! $rubric ) {
 			return false;
 		}
-		$rubric_id = intval( $rubric->ID );
+		$rubric_id        = intval( $rubric->ID );
 		$meta_key_average = 'ubc_wp_vote_' . $rubric_id . '_average';
 
 		return 'comment' === $object_type ? floatval( get_comment_meta( $object_id, $meta_key_average, true ) ) : floatval( get_post_meta( $object_id, $meta_key_average, true ) );
@@ -213,13 +213,13 @@ class WP_Vote {
 		if ( ! isset( $args['object_type'] ) || ! isset( $args['object_id'] ) ) {
 			return false;
 		}
-		$object_id = intval( $args['object_id'] );
+		$object_id   = intval( $args['object_id'] );
 		$object_type = sanitize_key( $args['object_type'] );
-		$rubric = get_page_by_title( 'Rate', 'OBJECT', 'ubc_wp_vote_rubric' );
+		$rubric      = get_page_by_title( 'Rate', 'OBJECT', 'ubc_wp_vote_rubric' );
 		if ( ! $rubric ) {
 			return false;
 		}
-		$rubric_id = intval( $rubric->ID );
+		$rubric_id      = intval( $rubric->ID );
 		$meta_key_count = 'ubc_wp_vote_' . $rubric_id . '_count';
 
 		return 'comment' === $object_type ? intval( get_comment_meta( $object_id, $meta_key_count, true ) ) : intval( get_post_meta( $object_id, $meta_key_count, true ) );
@@ -236,23 +236,23 @@ class WP_Vote {
 			return false;
 		}
 
-		$user_id = intval( get_current_user_id() );
-		$site_id = intval( get_current_blog_id() );
-		$object_id = intval( $args['object_id'] );
+		$user_id     = intval( get_current_user_id() );
+		$site_id     = intval( get_current_blog_id() );
+		$object_id   = intval( $args['object_id'] );
 		$object_type = sanitize_key( $args['object_type'] );
-		$rubric = get_page_by_title( 'Rate', 'OBJECT', 'ubc_wp_vote_rubric' );
+		$rubric      = get_page_by_title( 'Rate', 'OBJECT', 'ubc_wp_vote_rubric' );
 		if ( ! $rubric ) {
 			return false;
 		}
-		$rubric_id = intval( $rubric->ID );
+		$rubric_id      = intval( $rubric->ID );
 		$meta_key_total = 'ubc_wp_vote_' . $rubric_id . '_total';
 
 		$vote_data = \UBC\CTLT\WPVote\WP_Vote_DB::get_vote_meta(
 			array(
-				'user_id' => $user_id,
-				'site_id' => $site_id,
-				'rubric_id' => $rubric_id,
-				'object_id' => $object_id,
+				'user_id'     => $user_id,
+				'site_id'     => $site_id,
+				'rubric_id'   => $rubric_id,
+				'object_id'   => $object_id,
 				'object_type' => $object_type,
 			)
 		);
@@ -272,12 +272,12 @@ class WP_Vote {
 			return false;
 		}
 
-		$user_id = intval( get_current_user_id() );
-		$site_id = intval( get_current_blog_id() );
-		$rubric = get_page_by_title( 'Rate', 'OBJECT', 'ubc_wp_vote_rubric' );
-		$object_id = intval( $args['object_id'] );
+		$user_id     = intval( get_current_user_id() );
+		$site_id     = intval( get_current_blog_id() );
+		$rubric      = get_page_by_title( 'Rate', 'OBJECT', 'ubc_wp_vote_rubric' );
+		$object_id   = intval( $args['object_id'] );
 		$object_type = sanitize_key( $args['object_type'] );
-		$vote_data = intval( $args['vote_data'] );
+		$vote_data   = intval( $args['vote_data'] );
 
 		if ( ! $rubric ) {
 			return false;
@@ -303,18 +303,18 @@ class WP_Vote {
 	 * @return {boolean|array} array of mixd values on success, false on fail
 	 */
 	private static function update_meta_type_average( $user_id, $site_id, $rubric_id, $object_id, $object_type, $vote_data ) {
-		$meta_key_count = 'ubc_wp_vote_' . $rubric_id . '_count';
-		$meta_key_total = 'ubc_wp_vote_' . $rubric_id . '_total';
+		$meta_key_count   = 'ubc_wp_vote_' . $rubric_id . '_count';
+		$meta_key_total   = 'ubc_wp_vote_' . $rubric_id . '_total';
 		$meta_key_average = 'ubc_wp_vote_' . $rubric_id . '_average';
-		$vote_data = intval( $vote_data );
+		$vote_data        = intval( $vote_data );
 
 		// Insert entry into global table.
 		$existing_vote = \UBC\CTLT\WPVote\WP_Vote_DB::get_vote_meta(
 			array(
-				'user_id' => $user_id,
-				'site_id' => $site_id,
-				'rubric_id' => $rubric_id,
-				'object_id' => $object_id,
+				'user_id'     => $user_id,
+				'site_id'     => $site_id,
+				'rubric_id'   => $rubric_id,
+				'object_id'   => $object_id,
 				'object_type' => $object_type,
 			)
 		);
@@ -323,12 +323,12 @@ class WP_Vote {
 
 		$update_global_meta = \UBC\CTLT\WPVote\WP_Vote_DB::update_vote_meta(
 			array(
-				'user_id' => $user_id,
-				'site_id' => $site_id,
-				'rubric_id' => $rubric_id,
-				'object_id' => $object_id,
+				'user_id'     => $user_id,
+				'site_id'     => $site_id,
+				'rubric_id'   => $rubric_id,
+				'object_id'   => $object_id,
 				'object_type' => $object_type,
-				'vote_data' => $vote_data,
+				'vote_data'   => $vote_data,
 			)
 		);
 
@@ -445,17 +445,17 @@ class WP_Vote {
 		// Toggle the value found in the database.
 		$vote_data = \UBC\CTLT\WPVote\WP_Vote_DB::get_vote_meta(
 			array(
-				'user_id' => $user_id,
-				'site_id' => $site_id,
-				'rubric_id' => $rubric_id,
-				'object_id' => $object_id,
+				'user_id'     => $user_id,
+				'site_id'     => $site_id,
+				'rubric_id'   => $rubric_id,
+				'object_id'   => $object_id,
 				'object_type' => $object_type,
 			)
 		);
 
 		// Insert to meta table based on object_type.
 		$total_vote = call_user_func( 'comment' === $object_type ? 'get_comment_meta' : 'get_post_meta', $object_id, $meta_key, true );
-		$vote_data = is_array( $vote_data ) && 1 === count( $vote_data ) && '1' === $vote_data[0]->vote_data ? '1' : '0';
+		$vote_data  = is_array( $vote_data ) && 1 === count( $vote_data ) && '1' === $vote_data[0]->vote_data ? '1' : '0';
 
 		// Otherwise.
 		call_user_func(
@@ -467,12 +467,12 @@ class WP_Vote {
 
 		\UBC\CTLT\WPVote\WP_Vote_DB::update_vote_meta(
 			array(
-				'user_id' => $user_id,
-				'site_id' => $site_id,
-				'rubric_id' => $rubric_id,
-				'object_id' => $object_id,
+				'user_id'     => $user_id,
+				'site_id'     => $site_id,
+				'rubric_id'   => $rubric_id,
+				'object_id'   => $object_id,
 				'object_type' => $object_type,
-				'vote_data' => '1' === $vote_data ? '0' : '1',
+				'vote_data'   => '1' === $vote_data ? '0' : '1',
 			)
 		);
 

@@ -12,48 +12,48 @@ if ( ! isset( $object_id ) || ! isset( $object_type ) ) {
 
 require_once 'wp-admin/includes/template.php';
 
-$object_id = intval( $object_id );
+$object_id   = intval( $object_id );
 $object_type = sanitize_text_field( $object_type );
 
 $current_user_thumbs_up = \UBC\CTLT\WPVote\WP_Vote::get_object_current_user_up_vote(
 	array(
 		'object_type' => $object_type,
-		'object_id' => $object_id,
+		'object_id'   => $object_id,
 	)
 );
 
 $total_thumbs_up = \UBC\CTLT\WPVote\WP_Vote::get_object_current_user_up_vote(
 	array(
 		'object_type' => $object_type,
-		'object_id' => $object_id,
+		'object_id'   => $object_id,
 	)
 );
 
 $current_user_thumbs_down = \UBC\CTLT\WPVote\WP_Vote::get_object_current_user_down_vote(
 	array(
 		'object_type' => $object_type,
-		'object_id' => $object_id,
+		'object_id'   => $object_id,
 	)
 );
 
 $current_user_rating = \UBC\CTLT\WPVote\WP_Vote::get_object_current_user_rate(
 	array(
 		'object_type' => $object_type,
-		'object_id' => $object_id,
+		'object_id'   => $object_id,
 	)
 );
 
 $total_rating = \UBC\CTLT\WPVote\WP_Vote::get_object_rate_average(
 	array(
 		'object_type' => $object_type,
-		'object_id' => $object_id,
+		'object_id'   => $object_id,
 	)
 );
 
 $total_thumbs_up = \UBC\CTLT\WPVote\WP_Vote::get_object_total_up_vote(
 	array(
 		'object_type' => $object_type,
-		'object_id' => $object_id,
+		'object_id'   => $object_id,
 	)
 );
 
@@ -76,7 +76,7 @@ $total_thumbs_up = \UBC\CTLT\WPVote\WP_Vote::get_object_total_up_vote(
 		<?php
 			$args = array(
 				'rating' => $current_user_rating ? floatval( $current_user_rating ) : 0,
-				'type' => 'rating',
+				'type'   => 'rating',
 			);
 			wp_star_rating( $args );
 			?>
@@ -88,7 +88,7 @@ $total_thumbs_up = \UBC\CTLT\WPVote\WP_Vote::get_object_total_up_vote(
 		<?php
 			$args = array(
 				'rating' => $total_rating ? floatval( $total_rating ) : 0,
-				'type' => 'rating',
+				'type'   => 'rating',
 			);
 			wp_star_rating( $args );
 			?>

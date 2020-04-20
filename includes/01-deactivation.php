@@ -27,4 +27,3 @@ function remove_required_rubrics() {
 	}
 }//end remove_required_rubrics()
 
-//remove_required_rubrics();

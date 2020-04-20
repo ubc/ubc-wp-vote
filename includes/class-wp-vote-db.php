@@ -24,11 +24,11 @@ class WP_Vote_DB {
 	public static function create_tables() {
 		global $wpdb;
 		$charset_collate = sanitize_text_field( $wpdb->get_charset_collate() );
-		$table_name = sanitize_key( $wpdb->base_prefix . 'ubc_wp_vote' );
+		$table_name      = sanitize_key( $wpdb->base_prefix . 'ubc_wp_vote' );
 
 		$sql = "CREATE TABLE IF NOT EXISTS $table_name ( id INT NOT NULL AUTO_INCREMENT, user_id INT NOT NULL, site_id INT NOT NULL, object_id INT NOT NULL, object_type VARCHAR(10) NOT NULL, rubric_id INT NOT NULL, vote_data LONGTEXT NOT NULL, UNIQUE KEY id (id) ) $charset_collate;";
 
-		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
+		require_once ABSPATH . 'wp-admin/includes/upgrade.php';
 		dbDelta( esc_sql( $sql ) );
 	}//end create_tables()
 
@@ -45,20 +45,20 @@ class WP_Vote_DB {
 
 		global $wpdb;
 
-		$table_name = sanitize_key( $wpdb->base_prefix . 'ubc_wp_vote' );
-		$user_id = intval( $args['user_id'] );
-		$site_id = intval( $args['site_id'] );
-		$object_id = intval( $args['object_id'] );
-		$rubric_id = intval( $args['rubric_id'] );
+		$table_name  = sanitize_key( $wpdb->base_prefix . 'ubc_wp_vote' );
+		$user_id     = intval( $args['user_id'] );
+		$site_id     = intval( $args['site_id'] );
+		$object_id   = intval( $args['object_id'] );
+		$rubric_id   = intval( $args['rubric_id'] );
 		$object_type = $args['object_type'] ? sanitize_key( $args['object_type'] ) : 'post';
-		$vote_data = sanitize_meta( 'vote_data', $args['vote_data'], $object_type );
+		$vote_data   = sanitize_meta( 'vote_data', $args['vote_data'], $object_type );
 
 		$meta = self::get_vote_meta(
 			array(
-				'user_id' => $user_id,
-				'site_id' => $site_id,
-				'object_id' => $object_id,
-				'rubric_id' => $rubric_id,
+				'user_id'     => $user_id,
+				'site_id'     => $site_id,
+				'object_id'   => $object_id,
+				'rubric_id'   => $rubric_id,
 				'object_type' => $object_type,
 			)
 		);
@@ -101,7 +101,7 @@ class WP_Vote_DB {
 	public static function get_vote_meta( $args ) {
 		global $wpdb;
 
-		$table_name = sanitize_key( $wpdb->base_prefix . 'ubc_wp_vote' );
+		$table_name  = sanitize_key( $wpdb->base_prefix . 'ubc_wp_vote' );
 		$query_param = array();
 
 		if ( isset( $args['user_id'] ) ) {

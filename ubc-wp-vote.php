@@ -23,8 +23,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 define( 'UBC_WP_VOTE_VERSION', '0.0.1' );
 define( 'UBC_WP_VOTE_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 define( 'UBC_WP_VOTE_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
-define( 'UBC_WP_VOTE_DEFAULT_RUBRICS', array( 'Upvote', 'Downvote', 'Rate' ) );
-define( 'UBC_WP_VOTE_POST_TYPES_TO_EXCLUDE', array( 'attachment' ) );
 
 register_activation_hook( __FILE__, __NAMESPACE__ . '\\activate' );
 register_deactivation_hook( __FILE__, __NAMESPACE__ . '\\deactivate' );
@@ -39,7 +37,9 @@ require_once UBC_WP_VOTE_PLUGIN_DIR . 'includes/class-wp-vote.php';
 
 if ( is_admin() ) {
 	require_once UBC_WP_VOTE_PLUGIN_DIR . 'includes/04-admin-menus.php';
-	require_once UBC_WP_VOTE_PLUGIN_DIR . 'includes/05-admin-settings.php';
+	require_once UBC_WP_VOTE_PLUGIN_DIR . 'includes/class-wp-vote-settings.php';
+
+	WP_Vote_Settings::init();
 }
 
 /**
