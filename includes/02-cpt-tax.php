@@ -29,7 +29,6 @@ function register_post_types() {
 				'singular_name' => __( 'Rubric' ),
 			),
 			'public' => true,
-			'show_in_menu' => 'ubc_wp_vote',
 		)
 	);
 }//end register_post_types()

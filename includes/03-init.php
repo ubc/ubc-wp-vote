@@ -24,9 +24,7 @@ add_action( 'wp-hybrid-clf_after_comment', __NAMESPACE__ . '\\render_comment_con
 function load_styles_scripts() {
 	global $post;
 
-	$object_types = \UBC\CTLT\WPVote\WP_Vote_Settings::get_object_types_options();
-
-	if ( ! is_singular() || ! in_array( $post->post_type, array_keys( $object_types ), true ) ) {
+	if ( ! is_singular() ) {
 		return;
 	}
 
@@ -61,9 +59,7 @@ function load_styles_scripts() {
  * @return void
  */
 function render_post_content_actions() {
-	$object_types = \UBC\CTLT\WPVote\WP_Vote_Settings::get_object_types_options();
-
-	if ( ! is_singular() || ! in_array( get_post_type(), array_keys( $object_types ), true ) ) {
+	if ( ! is_singular() ) {
 		return;
 	}
 
@@ -79,7 +75,7 @@ function render_post_content_actions() {
  * @return void
  */
 function render_comment_content_actions() {
-	if ( ! is_singular() || ! in_array( 'comments', array_keys( $object_types ), true ) ) {
+	if ( ! is_singular() ) {
 		return;
 	}
 

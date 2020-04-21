@@ -193,7 +193,7 @@ class WP_Vote {
 		}
 		$object_id   = intval( $args['object_id'] );
 		$object_type = sanitize_key( $args['object_type'] );
-		$rubric      = get_page_by_title( 'Rate', 'OBJECT', 'ubc_wp_vote_rubric' );
+		$rubric      = get_page_by_title( 'Rating', 'OBJECT', 'ubc_wp_vote_rubric' );
 		if ( ! $rubric ) {
 			return false;
 		}
@@ -215,7 +215,7 @@ class WP_Vote {
 		}
 		$object_id   = intval( $args['object_id'] );
 		$object_type = sanitize_key( $args['object_type'] );
-		$rubric      = get_page_by_title( 'Rate', 'OBJECT', 'ubc_wp_vote_rubric' );
+		$rubric      = get_page_by_title( 'Rating', 'OBJECT', 'ubc_wp_vote_rubric' );
 		if ( ! $rubric ) {
 			return false;
 		}
@@ -240,7 +240,7 @@ class WP_Vote {
 		$site_id     = intval( get_current_blog_id() );
 		$object_id   = intval( $args['object_id'] );
 		$object_type = sanitize_key( $args['object_type'] );
-		$rubric      = get_page_by_title( 'Rate', 'OBJECT', 'ubc_wp_vote_rubric' );
+		$rubric      = get_page_by_title( 'Rating', 'OBJECT', 'ubc_wp_vote_rubric' );
 		if ( ! $rubric ) {
 			return false;
 		}
@@ -274,7 +274,7 @@ class WP_Vote {
 
 		$user_id     = intval( get_current_user_id() );
 		$site_id     = intval( get_current_blog_id() );
-		$rubric      = get_page_by_title( 'Rate', 'OBJECT', 'ubc_wp_vote_rubric' );
+		$rubric      = get_page_by_title( 'Rating', 'OBJECT', 'ubc_wp_vote_rubric' );
 		$object_id   = intval( $args['object_id'] );
 		$object_type = sanitize_key( $args['object_type'] );
 		$vote_data   = intval( $args['vote_data'] );

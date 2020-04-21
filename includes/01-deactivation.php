@@ -18,7 +18,8 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @return void
  */
 function remove_required_rubrics() {
-	foreach ( UBC_WP_VOTE_DEFAULT_RUBRICS as $key => $rubric_title ) {
+	$object_types = \UBC\CTLT\WPVote\WP_Vote_Settings::get_default_rubrics();
+	foreach ( $object_types as $key => $rubric_title ) {
 		$rubric_found = get_page_by_title( $rubric_title, 'OBJECT', 'ubc_wp_vote_rubric' );
 		// If rubric is found, delete it.
 		if ( $rubric_found ) {

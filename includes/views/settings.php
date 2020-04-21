@@ -7,7 +7,7 @@
 
 	// Get post types.
 	$object_types = \UBC\CTLT\WPVote\WP_Vote_Settings::get_object_types_options();
-
+	$rubrics = \UBC\CTLT\WPVote\WP_Vote_Settings::get_rubrics_options();
 ?>
 
 	<div class="wrap">
@@ -20,21 +20,26 @@
 				$types = get_option( 'ubc_wp_vote_valid_post_types' ) ? get_option( 'ubc_wp_vote_valid_post_types' ) : array();
 			?>
 			<section id="group_fields" class="settings">
-				<h2 class="group-fields-heading">Active post types</h2>
-				<ul>
-					<?php foreach ( $object_types as $single_object_name => $single_object_type ) : ?>
-						<li>
-							<label>
-								<input
-									type="checkbox"
-									name="ubc_wp_vote_valid_post_types[]"
-									value="<?php echo esc_attr( $single_object_name ); ?>"
-									<?php echo in_array( $single_object_name, $types, true ) ? 'checked' : ''; ?>
-								> <?php echo esc_html( $single_object_type->label ); ?>
-							</label>
-						</li>
-					<?php endforeach; ?>
-				</ul>
+				<h2 class="group-fields-heading">Active post types on each rubric</h2>
+				<hr>
+				<?php foreach ( $rubrics as $key => $rubric ) : ?>
+					<h3><?php echo esc_html( $rubric->label ); ?></h3>
+					<ul>
+						<?php foreach ( $object_types as $single_object_name => $single_object_type ) : ?>
+							<li>
+								<label>
+									<input
+										type="checkbox"
+										name="ubc_wp_vote_valid_post_types[<?php echo esc_attr( $rubric->name ); ?>][]"
+										value="<?php echo esc_attr( $single_object_name ); ?>"
+										<?php echo array_key_exists( $rubric->name, $types ) && in_array( $single_object_name, $types[ $rubric->name ], true ) ? 'checked' : ''; ?>
+									> <?php echo esc_html( $single_object_type->label ); ?>
+								</label>
+							</li>
+						<?php endforeach; ?>
+					</ul>
+					<hr>
+				<?php endforeach; ?>
 			</section>
 			<?php submit_button(); ?>
 		</form>
