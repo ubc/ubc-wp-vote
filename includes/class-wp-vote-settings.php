@@ -102,7 +102,7 @@ class WP_Vote_Settings {
 	public static function save_meta_boxes() {
 		global $post;
 
-		if ( ! check_admin_referer( 'ubc_wp_vote', 'ubc_wp_vote_security' ) ) {
+		if ( ! isset( $post->ID ) ) {
 			return;
 		}
 
