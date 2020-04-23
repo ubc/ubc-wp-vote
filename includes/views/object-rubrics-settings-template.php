@@ -48,6 +48,8 @@
 	</ul>
 </section>
 
+<?php wp_nonce_field( 'ubc_wp_vote', 'ubc_wp_vote_rubric_metabox' ); ?>
+
 <script>
 	if( typeof onUBCWPVoteOverride !== "function" ) {
 		function onUBCWPVoteOverride( element ) {
