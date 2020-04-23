@@ -33,13 +33,10 @@ require_once UBC_WP_VOTE_PLUGIN_DIR . 'includes/06-ajax.php';
 require_once UBC_WP_VOTE_PLUGIN_DIR . 'includes/helper.php';
 require_once UBC_WP_VOTE_PLUGIN_DIR . 'includes/class-wp-vote-db.php';
 require_once UBC_WP_VOTE_PLUGIN_DIR . 'includes/class-wp-vote.php';
-
+require_once UBC_WP_VOTE_PLUGIN_DIR . 'includes/class-wp-vote-settings.php';
 
 if ( is_admin() ) {
 	require_once UBC_WP_VOTE_PLUGIN_DIR . 'includes/04-admin-menus.php';
-	require_once UBC_WP_VOTE_PLUGIN_DIR . 'includes/class-wp-vote-settings.php';
-
-	WP_Vote_Settings::init();
 }
 
 /**
@@ -55,3 +52,5 @@ function activate() {
 function deactivate() {
 	require_once UBC_WP_VOTE_PLUGIN_DIR . 'includes/01-deactivation.php';
 }//end deactivate()
+
+WP_Vote_Settings::init();

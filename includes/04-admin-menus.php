@@ -21,22 +21,11 @@ add_action( 'admin_menu', __NAMESPACE__ . '\\register_admin_menus' );
  * @return void
  */
 function register_admin_menus() {
-	// Main Menu.
-	add_menu_page(
-		__( 'UBC WP Vote' ),
-		__( 'UBC WP Vote' ),
-		'edit_posts',
-		'ubc_wp_vote',
-		'',
-		'dashicons-admin-site',
-		2
-	);
-
 	// Settings as submenu.
 	add_submenu_page(
-		'ubc_wp_vote',
-		__( 'Settings', 'ubc' ),
-		__( 'Settings', 'ubc' ),
+		'options-general.php',
+		__( 'UBC WP Vote', 'ubc' ),
+		__( 'UBC WP Vote', 'ubc' ),
 		'edit_posts',
 		'ubc_wp_vote_settings',
 		__NAMESPACE__ . '\\render_settings_page'
