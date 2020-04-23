@@ -131,7 +131,7 @@ class WP_Vote_Settings {
 
 			update_post_meta( $post->ID, 'ubc-wp-vote-settings-comment-rubrics', $rubrics_comment );
 		}
-	}
+	}//end save_meta_boxes()
 
 	/**
 	 * Get a list of default rubrics required by plugin.
@@ -140,7 +140,7 @@ class WP_Vote_Settings {
 	 */
 	public static function get_default_rubrics() {
 		return self::$default_rubrics;
-	}
+	}//end get_default_rubrics()
 
 	/**
 	 * Get all object types available for user to choose.
@@ -180,7 +180,7 @@ class WP_Vote_Settings {
 		$object_types['comment'] = $comment;
 
 		return $object_types;
-	}
+	}//end get_object_types_options()
 
 	/**
 	 * Get a list of public available rubrics.
@@ -189,7 +189,7 @@ class WP_Vote_Settings {
 	 */
 	public static function get_rubrics_options() {
 		$args    = array(
-			'numberposts' => -1,
+			'numberposts' => apply_filters( 'ubc_wp_vote_get_rubrics_options_numberposts', 30 ),
 			'post_type'   => 'ubc_wp_vote_rubric',
 			'post_status' => 'publish',
 		);
@@ -204,7 +204,7 @@ class WP_Vote_Settings {
 			},
 			$rubrics
 		);
-	}
+	}//end get_rubrics_options()
 
 	/**
 	 * Check if a object has specific rubric turned on.
@@ -244,5 +244,5 @@ class WP_Vote_Settings {
 		}
 
 		return $is_comment ? in_array( 'comment', $global_active_rubrics[ $rubric_name ], true ) : in_array( $post_type, $global_active_rubrics[ $rubric_name ], true );
-	}
+	}//end is_object_rubric_valid()
 }
