@@ -102,7 +102,7 @@ class WP_Vote_Settings {
 	public static function save_meta_boxes() {
 		global $post;
 
-		if ( ! isset( $post->ID ) || ! check_admin_referer( 'ubc_wp_vote', 'ubc_wp_vote_rubric_metabox' ) ) {
+		if ( ! isset( $post->ID ) || 1 !== check_admin_referer( 'ubc_wp_vote', 'ubc_wp_vote_rubric_metabox' ) ) {
 			return;
 		}
 
@@ -119,7 +119,10 @@ class WP_Vote_Settings {
 			);
 
 			update_post_meta( $post->ID, 'ubc-wp-vote-settings-rubrics', $rubrics );
+		} else {
+			update_post_meta( $post->ID, 'ubc-wp-vote-settings-rubrics', array() );
 		}
+
 		if ( isset( $_POST['ubc-wp-vote-settings-comment-rubrics'] ) ) {
 			// Sanitizing array.
 			$rubrics_comment = array_map(
@@ -130,6 +133,8 @@ class WP_Vote_Settings {
 			);
 
 			update_post_meta( $post->ID, 'ubc-wp-vote-settings-comment-rubrics', $rubrics_comment );
+		} else {
+			update_post_meta( $post->ID, 'ubc-wp-vote-settings-comment-rubrics', array() );
 		}
 	}//end save_meta_boxes()
 
