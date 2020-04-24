@@ -25,7 +25,7 @@ while ( have_posts() ) :
 	$is_rating_valid = 'comment' !== $object_type ? \UBC\CTLT\WPVote\WP_Vote_Settings::is_object_rubric_valid( 'rating' ) : \UBC\CTLT\WPVote\WP_Vote_Settings::is_object_rubric_valid( 'rating', 0, true );
 	?>
 	<div>
-		<h2><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h2>
+		<h2><a href="<?php echo esc_url( get_the_permalink() ); ?>"><?php echo esc_html( get_the_title() ); ?></a></h2>
 		<?php
 			$args = array(
 				'rating' => $total_rating ? floatval( $total_rating ) : 0,
@@ -35,9 +35,9 @@ while ( have_posts() ) :
 				wp_star_rating( $args );
 			}
 			?>
-		<p><i>Posted on <?php the_date( 'l F j, Y' ); ?> by <strong><?php the_author(); ?></strong></i></p>
-		<p><?php the_excerpt(); ?></p>
-		<a href="<?php the_permalink(); ?>">Read More</a>
+		<p><i>Posted on <?php echo esc_html( get_the_date( 'l F j, Y' ) ); ?> by <strong><?php echo esc_html( get_the_author() ); ?></strong></i></p>
+		<p><?php echo esc_html( get_the_excerpt() ); ?></p>
+		<a href="<?php echo esc_url( get_the_permalink() ); ?>">Read More</a>
 		<?php
 		if ( 'post' === get_post_type() ) :
 			$terms = get_the_terms( get_the_ID(), 'category' );
