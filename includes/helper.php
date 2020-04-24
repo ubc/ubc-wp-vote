@@ -30,3 +30,44 @@ function write_log( $log ) {
 function round_to_half_integer( $number ) {
 	return round( $number * 2 ) / 2;
 }//end round_to_half_integer()
+
+/**
+ * Sort array of objects based on object property.
+ *
+ * @param [array]  $array array to be sorted.
+ * @param [string] $property object property name to be sorted by.
+ * @param string   $order order, either 'ASC' or 'DESC.
+ * @return array
+ */
+function sort_array_of_objects_by_property( $array, $property, $order = 'ASC' ) {
+	if ( ! $array || ! is_array( $array ) ) {
+		return $array;
+	}
+
+	usort(
+		$array,
+		function( $a, $b ) use ( $property, $order ) {
+			if ( $a->$property === $b->$property ) {
+				return 0;
+			}
+
+			if ( $a->$property < $b->$property && 'ASC' === $order ) {
+				return -1;
+			}
+
+			if ( $a->$property > $b->$property && 'ASC' === $order ) {
+				return 1;
+			}
+
+			if ( $a->$property < $b->$property && 'DESC' === $order ) {
+				return 1;
+			}
+
+			if ( $a->$property > $b->$property && 'DESC' === $order ) {
+				return -1;
+			}
+		}
+	);
+
+	return $array;
+}

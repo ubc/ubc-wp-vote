@@ -37,6 +37,7 @@
 .ubc-wp-vote__star-rating {
 	display: flex;
 	flex-wrap: wrap;
+	margin-top: .5rem;
 }
 
 .ubc-wp-vote__star-rating > * {
@@ -45,14 +46,6 @@
 
 .ubc-wp-vote__star-rating--overall {
 	display: flex;
-}
-
-.ubc-wp-vote__star-rating--overall::before {
-	content: '( Overall: ';
-}
-
-.ubc-wp-vote__star-rating--overall::after {
-	content: ' )';
 }
 
 /**
