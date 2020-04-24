@@ -17,6 +17,7 @@ add_action( 'ubc_wp_vote_template_home', __NAMESPACE__ . '\\load_styles_scripts_
 add_action( 'wp-hybrid-clf_after_entry', __NAMESPACE__ . '\\render_post_content_actions' );
 add_action( 'wp-hybrid-clf_after_comment', __NAMESPACE__ . '\\render_comment_content_actions' );
 add_filter( 'facetwp_facet_html', __NAMESPACE__ . '\\render_rating_facet_filter', 10, 2 );
+add_filter( 'facetwp_sort_options', __NAMESPACE__ . '\\facetwp_sort_options' );
 
 /**
  * Enqueue styles and scripts for single template.
@@ -177,3 +178,55 @@ function render_rating_facet_filter( $output, $params ) {
 
 	return $html . $output;
 }//end render_rating_facet_filter()
+
+/**
+ * Add facetwp sorting options.
+ *
+ * @param [array] $options default sorting options.
+ * @return array
+ */
+function facetwp_sort_options( $options ) {
+	$options['rating_asc']     = array(
+		'label'      => 'Rating(Highest)',
+		'query_args' => array(
+			'order_by' => 'rating',
+			'order'    => 'ASC',
+		),
+	);
+	$options['rating_dec']     = array(
+		'label'      => 'Rating(Lowest)',
+		'query_args' => array(
+			'order_by' => 'rating',
+			'order'    => 'DESC',
+		),
+	);
+	$options['thumbup_asc']    = array(
+		'label'      => 'Thumbs Up(Highest)',
+		'query_args' => array(
+			'order_by' => 'upvote',
+			'order'    => 'ASC',
+		),
+	);
+	$options['thumbup_desc']   = array(
+		'label'      => 'Thumbs Up(Lowest)',
+		'query_args' => array(
+			'order_by' => 'upvote',
+			'order'    => 'DESC',
+		),
+	);
+	$options['thumbdown_asc']  = array(
+		'label'      => 'Thumbs Down(Highest)',
+		'query_args' => array(
+			'order_by' => 'downvote',
+			'order'    => 'ASC',
+		),
+	);
+	$options['thumbdown_desc'] = array(
+		'label'      => 'Thumbs Down(Lowest)',
+		'query_args' => array(
+			'order_by' => 'downvote',
+			'order'    => 'DESC',
+		),
+	);
+	return $options;
+}
