@@ -23,31 +23,33 @@ while ( have_posts() ) :
 
 	$is_rating_valid = 'comment' !== $object_type ? \UBC\CTLT\WPVote\WP_Vote_Settings::is_object_rubric_valid( 'rating' ) : \UBC\CTLT\WPVote\WP_Vote_Settings::is_object_rubric_valid( 'rating', 0, true );
 	?>
-	<h2><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h2>
-	<?php
-		$args = array(
-			'rating' => $total_rating ? floatval( $total_rating ) : 0,
-			'type'   => 'rating',
-		);
-		if ( $is_rating_valid ) {
-			wp_star_rating( $args );
-		}
-		?>
-	<p><i>Posted on <?php the_date( 'l F j, Y' ); ?> by <strong><?php the_author(); ?></strong></i></p>
-	<p><?php the_excerpt(); ?></p>
-	<a href="<?php the_permalink(); ?>">Read More</a>
-	<?php
-	if ( 'post' === get_post_type() ) :
-		$terms = get_the_terms( get_the_ID(), 'category' );
-		$terms = array_map(
-			function( $term ) {
-				return esc_html( $term->name );
-			},
-			$terms
-		);
-		?>
-		<p>Categories: <?php echo join( ', ', $terms ); ?></p>
-	<?php endif; ?>
+	<div>
+		<h2><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h2>
+		<?php
+			$args = array(
+				'rating' => $total_rating ? floatval( $total_rating ) : 0,
+				'type'   => 'rating',
+			);
+			if ( $is_rating_valid ) {
+				wp_star_rating( $args );
+			}
+			?>
+		<p><i>Posted on <?php the_date( 'l F j, Y' ); ?> by <strong><?php the_author(); ?></strong></i></p>
+		<p><?php the_excerpt(); ?></p>
+		<a href="<?php the_permalink(); ?>">Read More</a>
+		<?php
+		if ( 'post' === get_post_type() ) :
+			$terms = get_the_terms( get_the_ID(), 'category' );
+			$terms = array_map(
+				function( $term ) {
+					return esc_html( $term->name );
+				},
+				$terms
+			);
+			?>
+			<p>Categories: <?php echo join( ', ', $terms ); ?></p>
+		<?php endif; ?>
+	</div>
 <?php endwhile; ?>
 
 
@@ -76,5 +78,28 @@ while ( have_posts() ) :
 
 	.facetwp-facet select{
 		border-radius: 0;
+	}
+
+	.facetwp-facet {
+		margin-bottom: 0 !important;
+	}
+
+	.facetwp-template{
+		display: grid;
+		grid-template-columns: 1fr;
+		grid-gap: 20px;
+		gap: 20px;
+	}
+
+	@media only screen and (min-width: 480px) {
+		.facetwp-template{
+			grid-template-columns: repeat( 2, 1fr );
+		}
+	}
+
+	@media only screen and (min-width: 968px) {
+		.facetwp-template{
+			grid-template-columns: repeat( 3, 1fr );
+		}
 	}
 </style>

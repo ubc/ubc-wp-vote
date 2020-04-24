@@ -54,6 +54,11 @@ $is_thumb_up_valid   = 'comment' !== $object_type ? \UBC\CTLT\WPVote\WP_Vote_Set
 $is_thumb_down_valid = 'comment' !== $object_type ? \UBC\CTLT\WPVote\WP_Vote_Settings::is_object_rubric_valid( 'downvote' ) : \UBC\CTLT\WPVote\WP_Vote_Settings::is_object_rubric_valid( 'downvote', 0, true );
 $is_rating_valid     = 'comment' !== $object_type ? \UBC\CTLT\WPVote\WP_Vote_Settings::is_object_rubric_valid( 'rating' ) : \UBC\CTLT\WPVote\WP_Vote_Settings::is_object_rubric_valid( 'rating', 0, true );
 ?>
+
+<?php if ( $is_thumb_up_valid || $is_thumb_down_valid || $is_rating_valid ) : ?>
+	<hr>
+<?php endif; ?>
+
 <?php if ( is_user_logged_in() ) : ?>
 	<div class="ubc-wp-vote__thumbs" data-id="<?php echo esc_attr( $object_id ); ?>" data-type="<?php echo esc_attr( $object_type ); ?>">
 
@@ -70,7 +75,7 @@ $is_rating_valid     = 'comment' !== $object_type ? \UBC\CTLT\WPVote\WP_Vote_Set
 		<?php endif; ?>
 
 		<?php if ( $is_thumb_up_valid ) : ?>
-			<span>( <?php echo ! empty( $total_thumbs_up ) ? intval( $total_thumbs_up ) : 0; ?> )</span>
+			<span>( <?php echo ! empty( $total_thumbs_up ) ? intval( $total_thumbs_up ) : 0; ?> upvotes )</span>
 		<?php endif; ?>
 	</div>
 <?php endif; ?>
@@ -90,14 +95,10 @@ $is_rating_valid     = 'comment' !== $object_type ? \UBC\CTLT\WPVote\WP_Vote_Set
 				</div>
 		<?php endif; ?>
 
-		<div class="ubc-wp-vote__star-rating--overall">
-			<?php
-				$args = array(
-					'rating' => $total_rating ? floatval( $total_rating ) : 0,
-					'type'   => 'rating',
-				);
-				wp_star_rating( $args );
-				?>
-		</div>
+		<div class="ubc-wp-vote__star-rating--overall">( Average Rating: <?php echo floatval( $total_rating ); ?> )</div>
 	</div>
+<?php endif; ?>
+
+<?php if ( $is_thumb_up_valid || $is_thumb_down_valid || $is_rating_valid ) : ?>
+	<hr>
 <?php endif; ?>
