@@ -6,6 +6,7 @@
  */
 
 require_once 'wp-admin/includes/template.php';
+do_action( 'ubc_wp_vote_template_home' );
 
 ?>
 
@@ -40,6 +41,7 @@ while ( have_posts() ) :
 		<?php
 		if ( 'post' === get_post_type() ) :
 			$terms = get_the_terms( get_the_ID(), 'category' );
+			// Escape array.
 			$terms = array_map(
 				function( $term ) {
 					return esc_html( $term->name );
@@ -51,55 +53,3 @@ while ( have_posts() ) :
 		<?php endif; ?>
 	</div>
 <?php endwhile; ?>
-
-
-<script>
-// Scripts from facetwp to add facet labels above filters https://facetwp.com/add-labels-above-each-facet/.
-(function( $ ) {
-	$(document).on('facetwp-loaded', function() {
-		$('.facetwp-facet').each(function() {
-			var $facet = $(this);
-			var facet_name = $facet.attr('data-name');
-			var facet_label = FWP.settings.labels[facet_name];
-
-			if ($facet.closest('.facet-wrap').length < 1 && $facet.closest('.facetwp-flyout').length < 1) {
-				$facet.wrap('<div class="facet-wrap"></div>');
-				$facet.before('<span class="facet-label">' + facet_label + '</span>');
-			}
-		});
-	});
-})(jQuery);
-</script>
-
-<style>
-	.facet-wrap{
-		display: inline-block;
-	}
-
-	.facetwp-facet select{
-		border-radius: 0;
-	}
-
-	.facetwp-facet {
-		margin-bottom: 0 !important;
-	}
-
-	.facetwp-template{
-		display: grid;
-		grid-template-columns: 1fr;
-		grid-gap: 20px;
-		gap: 20px;
-	}
-
-	@media only screen and (min-width: 480px) {
-		.facetwp-template{
-			grid-template-columns: repeat( 2, 1fr );
-		}
-	}
-
-	@media only screen and (min-width: 968px) {
-		.facetwp-template{
-			grid-template-columns: repeat( 3, 1fr );
-		}
-	}
-</style>
