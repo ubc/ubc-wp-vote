@@ -186,47 +186,90 @@ function render_rating_facet_filter( $output, $params ) {
  * @return array
  */
 function facetwp_sort_options( $options ) {
-	$options['rating_asc']     = array(
+	$rubric_rating   = get_page_by_title( 'Rating', 'OBJECT', 'ubc_wp_vote_rubric' );
+	$rubric_upvote   = get_page_by_title( 'Upvote', 'OBJECT', 'ubc_wp_vote_rubric' );
+	$meta_key_rating = 'ubc_wp_vote_' . intval( $rubric_rating->ID ) . '_average';
+	$meta_key_upvote = 'ubc_wp_vote_' . intval( $rubric_upvote->ID ) . '_total';
+
+	if ( ! $rubric_rating ) {
+		return $options;
+	}
+
+	$options['rating_desc'] = array(
 		'label'      => 'Rating(Highest)',
 		'query_args' => array(
-			'order_by' => 'rating',
-			'order'    => 'ASC',
+			'orderby'    => 'meta_value_num',
+			'order'      => 'DESC',
+			'meta_query' => array(
+				'relation'  => 'OR',
+				array(
+					'key'     => $meta_key_rating,
+					'compare' => 'NOT EXISTS',
+				),
+				array(
+					'key'     => $meta_key_rating,
+					'compare' => 'EXISTS',
+				),
+			),
 		),
 	);
-	$options['rating_dec']     = array(
+
+	$options['rating_asc'] = array(
 		'label'      => 'Rating(Lowest)',
 		'query_args' => array(
-			'order_by' => 'rating',
-			'order'    => 'DESC',
+			'orderby'    => 'meta_value_num',
+			'order'      => 'ASC',
+			'meta_query' => array(
+				'relation'  => 'OR',
+				array(
+					'key'     => $meta_key_rating,
+					'compare' => 'NOT EXISTS',
+				),
+				array(
+					'key'     => $meta_key_rating,
+					'compare' => 'EXISTS',
+				),
+			),
 		),
 	);
-	$options['thumbup_asc']    = array(
+
+	$options['upvote_desc'] = array(
 		'label'      => 'Thumbs Up(Highest)',
 		'query_args' => array(
-			'order_by' => 'upvote',
-			'order'    => 'ASC',
+			'orderby'    => 'meta_value_num',
+			'order'      => 'DESC',
+			'meta_query' => array(
+				'relation' => 'OR',
+				array(
+					'key'     => $meta_key_upvote,
+					'compare' => 'NOT EXISTS',
+				),
+				array(
+					'key'     => $meta_key_upvote,
+					'compare' => 'EXISTS',
+				),
+			),
 		),
 	);
-	$options['thumbup_desc']   = array(
+
+	$options['upvote_asc'] = array(
 		'label'      => 'Thumbs Up(Lowest)',
 		'query_args' => array(
-			'order_by' => 'upvote',
-			'order'    => 'DESC',
+			'orderby'    => 'meta_value_num',
+			'order'      => 'ASC',
+			'meta_query' => array(
+				'relation' => 'OR',
+				array(
+					'key'     => $meta_key_upvote,
+					'compare' => 'NOT EXISTS',
+				),
+				array(
+					'key'     => $meta_key_upvote,
+					'compare' => 'EXISTS',
+				),
+			),
 		),
 	);
-	$options['thumbdown_asc']  = array(
-		'label'      => 'Thumbs Down(Highest)',
-		'query_args' => array(
-			'order_by' => 'downvote',
-			'order'    => 'ASC',
-		),
-	);
-	$options['thumbdown_desc'] = array(
-		'label'      => 'Thumbs Down(Lowest)',
-		'query_args' => array(
-			'order_by' => 'downvote',
-			'order'    => 'DESC',
-		),
-	);
+
 	return $options;
 }
