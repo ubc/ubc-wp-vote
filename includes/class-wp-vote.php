@@ -423,6 +423,11 @@ class WP_Vote {
 			);
 		}
 
+		// FacetWP re-index.
+		if ( 'comment' !== $object_type ) {
+			FWP()->indexer->index( $object_id );
+		}
+
 		return true;
 	}//end update_meta_type_average()
 
@@ -475,6 +480,11 @@ class WP_Vote {
 				'vote_data'   => '1' === $vote_data ? '0' : '1',
 			)
 		);
+
+		// FacetWP re-index.
+		if ( 'comment' !== $object_type ) {
+			FWP()->indexer->index( $object_id );
+		}
 
 		return true;
 	}//end update_meta_type_toggle()

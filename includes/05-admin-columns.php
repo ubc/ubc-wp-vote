@@ -27,9 +27,9 @@ if ( is_admin() ) {
 	add_filter( 'parse_query', __NAMESPACE__ . '\\admin_custom_post_filter_rating_query' );
 }
 
-add_action( 'the_posts', __NAMESPACE__ . '\\admin_custom_post_orderby_upvote', 10, 2 );
-add_action( 'the_posts', __NAMESPACE__ . '\\admin_custom_post_orderby_downvote', 10, 2 );
-add_action( 'the_posts', __NAMESPACE__ . '\\admin_custom_post_orderby_rating', 10, 2 );
+add_action( 'pre_get_posts', __NAMESPACE__ . '\\admin_custom_post_orderby_upvote' );
+add_action( 'pre_get_posts', __NAMESPACE__ . '\\admin_custom_post_orderby_downvote' );
+add_action( 'pre_get_posts', __NAMESPACE__ . '\\admin_custom_post_orderby_rating' );
 
 /**
  * Add extra columns in WordPress listing page.
@@ -146,97 +146,112 @@ function manage_sortable_columns( $columns ) {
 /**
  * Provide custom algorithem to sort posts by up vote total.
  *
- * @param array    $posts array of posts from wp query results.
  * @param WP_Query $query WP query object.
  * @return boolean|void
  */
-function admin_custom_post_orderby_upvote( $posts, $query ) {
+function admin_custom_post_orderby_upvote( $query ) {
 	if ( ! is_admin() || ! $query->is_main_query() ) {
-		return $posts;
+		return $query;
 	}
 
-	$rubric_upvote   = get_page_by_title( 'Upvote', 'OBJECT', 'ubc_wp_vote_rubric' );
+	$rubric_upvote = get_page_by_title( 'Upvote', 'OBJECT', 'ubc_wp_vote_rubric' );
 
 	if ( ! $rubric_upvote || 'upvote' !== $query->get( 'orderby' ) ) {
-		return $posts;
+		return $query;
 	}
 
-	$posts = array_map(
-		function( $post ) use ( $rubric_upvote ) {
-			$upvote = get_post_meta( $post->ID, 'ubc_wp_vote_' . intval( $rubric_upvote->ID ) . '_total', true );
-			$post->ubc_wp_vote_upvote = 'false' !== $upvote ? intval( $upvote ) : 0;
-			return $post;
-		},
-		$posts
+	$query->set(
+		'meta_query',
+		array(
+			'relation'  => 'OR',
+			array(
+				'key'     => 'ubc_wp_vote_' . intval( $rubric_upvote->ID ) . '_total',
+				'compare' => 'NOT EXISTS',
+			),
+			array(
+				'key'     => 'ubc_wp_vote_' . intval( $rubric_upvote->ID ) . '_total',
+				'compare' => 'EXISTS',
+			),
+		)
 	);
 
-	$posts = \UBC\CTLT\WPVote\Helpers\sort_array_of_objects_by_property( $posts, 'ubc_wp_vote_upvote', $query->get( 'order' ) );
+	$query->set( 'orderby', 'meta_value_num' );
 
-	return $posts;
+	return $query;
 }//end admin_custom_post_orderby_upvote()
 
 /**
  * Provide custom algorithem to sort posts by down vote total.
  *
- * @param array    $posts array of posts from wp query results.
  * @param WP_Query $query WP query object.
  * @return boolean|void
  */
-function admin_custom_post_orderby_downvote( $posts, $query ) {
+function admin_custom_post_orderby_downvote( $query ) {
 	if ( ! is_admin() || ! $query->is_main_query() ) {
-		return $posts;
+		return $query;
 	}
 
 	$rubric_downvote = get_page_by_title( 'Downvote', 'OBJECT', 'ubc_wp_vote_rubric' );
 
 	if ( ! $rubric_downvote || 'downvote' !== $query->get( 'orderby' ) ) {
-		return $posts;
+		return $query;
 	}
 
-	$posts = array_map(
-		function( $post ) use ( $rubric_downvote ) {
-			$downvote                   = get_post_meta( $post->ID, 'ubc_wp_vote_' . intval( $rubric_downvote->ID ) . '_total', true );
-			$post->ubc_wp_vote_downvote = 'false' !== $downvote ? intval( $downvote ) : 0;
-			return $post;
-		},
-		$posts
+	$query->set(
+		'meta_query',
+		array(
+			'relation'  => 'OR',
+			array(
+				'key'     => 'ubc_wp_vote_' . intval( $rubric_downvote->ID ) . '_total',
+				'compare' => 'NOT EXISTS',
+			),
+			array(
+				'key'     => 'ubc_wp_vote_' . intval( $rubric_downvote->ID ) . '_total',
+				'compare' => 'EXISTS',
+			),
+		)
 	);
 
-	$posts = \UBC\CTLT\WPVote\Helpers\sort_array_of_objects_by_property( $posts, 'ubc_wp_vote_downvote', $query->get( 'order' ) );
+	$query->set( 'orderby', 'meta_value_num' );
 
-	return $posts;
+	return $query;
 }//end admin_custom_post_orderby_downvote()
 
 /**
  * Provide custom algorithem to sort posts by average rating.
  *
- * @param array    $posts array of posts from wp query results.
  * @param WP_Query $query WP query object.
  * @return boolean|void
  */
-function admin_custom_post_orderby_rating( $posts, $query ) {
+function admin_custom_post_orderby_rating( $query ) {
 	if ( ! is_admin() || ! $query->is_main_query() ) {
-		return $posts;
+		return $query;
 	}
 
 	$rubric_rating = get_page_by_title( 'Rating', 'OBJECT', 'ubc_wp_vote_rubric' );
 
 	if ( ! $rubric_rating || 'rating' !== $query->get( 'orderby' ) ) {
-		return $posts;
+		return $query;
 	}
 
-	$posts = array_map(
-		function( $post ) use ( $rubric_rating ) {
-			$rating                   = get_post_meta( $post->ID, 'ubc_wp_vote_' . intval( $rubric_rating->ID ) . '_average', true );
-			$post->ubc_wp_vote_rating = 'false' !== $rating ? floatval( $rating ) : 0;
-			return $post;
-		},
-		$posts
+	$query->set(
+		'meta_query',
+		array(
+			'relation'  => 'OR',
+			array(
+				'key'     => 'ubc_wp_vote_' . intval( $rubric_rating->ID ) . '_average',
+				'compare' => 'NOT EXISTS',
+			),
+			array(
+				'key'     => 'ubc_wp_vote_' . intval( $rubric_rating->ID ) . '_average',
+				'compare' => 'EXISTS',
+			),
+		)
 	);
 
-	$posts = \UBC\CTLT\WPVote\Helpers\sort_array_of_objects_by_property( $posts, 'ubc_wp_vote_rating', $query->get( 'order' ) );
+	$query->set( 'orderby', 'meta_value_num' );
 
-	return $posts;
+	return $query;
 }//end admin_custom_post_orderby_rating()
 
 /**
@@ -290,7 +305,7 @@ function admin_custom_post_filter_rating_query( $query ) {
 		return;
 	}
 
-	$rubric_rating = get_page_by_title( 'Rating', 'OBJECT', 'ubc_wp_vote_rubric' );
+	$rubric_rating   = get_page_by_title( 'Rating', 'OBJECT', 'ubc_wp_vote_rubric' );
 	$rating_selected = intval( $_GET['ubc_admin_listing_filter_rating'] );
 
 	if ( ! $rubric_rating ) {
