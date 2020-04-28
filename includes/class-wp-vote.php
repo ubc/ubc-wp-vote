@@ -423,9 +423,10 @@ class WP_Vote {
 			);
 		}
 
-		// FacetWP re-index.
+		// FacetWP re-index and cache cleanup.
 		if ( 'comment' !== $object_type ) {
 			FWP()->indexer->index( $object_id );
+			FWP_Cache()->cleanup( 'all' );
 		}
 
 		return true;
@@ -481,9 +482,10 @@ class WP_Vote {
 			)
 		);
 
-		// FacetWP re-index.
+		// FacetWP re-index and cache cleanup.
 		if ( 'comment' !== $object_type ) {
 			FWP()->indexer->index( $object_id );
+			FWP_Cache()->cleanup( 'all' );
 		}
 
 		return true;
