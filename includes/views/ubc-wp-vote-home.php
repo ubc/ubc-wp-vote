@@ -5,7 +5,6 @@
  * @package ubc_wp_vote
  */
 
-require_once 'wp-admin/includes/template.php';
 do_action( 'ubc_wp_vote_template_home' );
 
 ?>
@@ -29,43 +28,47 @@ while ( have_posts() ) :
 		)
 	);
 
-	$total_thumbs_down = \UBC\CTLT\WPVote\WP_Vote::get_object_total_down_vote(
-		array(
-			'object_type' => $object_type,
-			'object_id'   => $object_id,
-		)
-	);
-
 	$is_rating_valid = 'comment' !== $object_type ? \UBC\CTLT\WPVote\WP_Vote_Settings::is_object_rubric_valid( 'rating' ) : \UBC\CTLT\WPVote\WP_Vote_Settings::is_object_rubric_valid( 'rating', 0, true );
 	?>
-	<div>
-		<h2><a href="<?php echo esc_url( get_the_permalink() ); ?>"><?php echo esc_html( get_the_title() ); ?></a></h2>
-		<?php
-			$args = array(
-				'rating' => $total_rating ? floatval( $total_rating ) : 0,
-				'type'   => 'rating',
-			);
-			if ( $is_rating_valid ) {
-				wp_star_rating( $args );
-			}
-			?>
-		<p><i>Posted on <?php echo esc_html( get_the_date( 'l F j, Y' ) ); ?> by <strong><?php echo esc_html( get_the_author() ); ?></strong></i></p>
-		<p><?php echo esc_html( get_the_excerpt() ); ?></p>
-		<p>Thumbs up: <?php echo esc_html( $total_thumbs_up ); ?></p>
-		<p>Thumbs down: <?php echo esc_html( $total_thumbs_up ); ?></p>
-		<a href="<?php echo esc_url( get_the_permalink() ); ?>">Read More</a>
-		<?php
-		if ( 'post' === get_post_type() ) :
-			$terms = get_the_terms( get_the_ID(), 'category' );
-			// Escape array.
-			$terms = array_map(
-				function( $term ) {
-					return esc_html( $term->name );
-				},
-				$terms
-			);
-			?>
-			<p>Categories: <?php echo join( ', ', $terms ); ?></p>
-		<?php endif; ?>
+	<div class="facetwp-template__single">
+		<div class="facetwp-template__single--status">
+			<table>
+				<tr>
+					<td>
+						<?php echo floatval( $total_rating ); ?>
+					</td>
+					<td>
+						<span class="dashicons dashicons-thumbs-up"></span>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<?php echo intval( $total_thumbs_up ); ?>
+					</td>
+					<td>
+						<span class="dashicons dashicons-star-filled"></span>
+					</td>
+				</tr>
+			</table>
+		</div>
+		<div class="facetwp-template__single--content">
+			<h2><a href="<?php echo esc_url( get_the_permalink() ); ?>"><?php echo esc_html( get_the_title() ); ?></a></h2>
+			<?php
+			if ( 'post' === get_post_type() ) :
+				$terms = get_the_terms( get_the_ID(), 'category' );
+				// Escape array.
+				$terms = array_map(
+					function( $term ) {
+						return esc_html( $term->name );
+					},
+					$terms
+				);
+				?>
+				<span><?php echo join( ' | ', $terms ); ?></span>
+			<?php endif; ?>
+			<p><i><?php echo esc_html( get_the_date( 'F j, Y' ) ); ?>, <strong><?php echo esc_html( get_the_author() ); ?></strong></i></p>
+			<p><?php echo esc_html( get_the_excerpt() ); ?></p>
+			<a href="<?php echo esc_url( get_the_permalink() ); ?>">Read More</a>
+		</div>
 	</div>
 <?php endwhile; ?>
