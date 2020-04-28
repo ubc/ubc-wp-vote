@@ -29,6 +29,7 @@ function register_post_types() {
 				'singular_name' => __( 'Rubric' ),
 			),
 			'public' => true,
+			'show_ui' => false,
 		)
 	);
 }//end register_post_types()
