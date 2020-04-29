@@ -114,7 +114,3 @@ $is_rating_valid     = 'comment' !== $object_type ? \UBC\CTLT\WPVote\WP_Vote_Set
 		</span>
 	</div>
 <?php endif; ?>
-
-<?php if ( $is_thumb_up_valid || $is_thumb_down_valid || $is_rating_valid ) : ?>
-	<hr>
-<?php endif; ?>

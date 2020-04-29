@@ -34,9 +34,9 @@
 .facetwp-template__single{
     display: grid;
     grid-template-columns: 1fr;
-    border-width: 1px;
+    border-width: 4px;
     border-style: solid;
-    border-color: var(--ubcpostborder, #000);
+    border-color: var(--ubcpostborder, #f1f1f1);
     min-height: 150px;
     margin-bottom: 2rem;
 }
@@ -60,6 +60,10 @@
 
 .facetwp-template__single--status >div{
     margin-top: 8px;
+}
+
+.facetwp-template__single--status .dashicons{
+    opacity: .5;
 }
 
 .facetwp-template__single--status .dashicons-admin-comments{
