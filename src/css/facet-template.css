@@ -1,9 +1,17 @@
+.ubc-wp-vote__facetwp-filters{
+    padding: 2rem 1rem;
+    background-color: #f1f1f1;
+    margin-bottom: 2rem;
+}
+
 .facet-wrap{
     display: inline-block;
 }
 
-.facetwp-facet select{
-    border-radius: 0;
+.facetwp-facet select, .facetwp-facet input, .facetwp-sort select{
+    width: 100%;
+    box-sizing: border-box;
+    height:35px;
 }
 
 .facetwp-facet {
