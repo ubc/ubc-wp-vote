@@ -53,10 +53,22 @@
 
 .facetwp-template__single--status{
     order: 2;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, 25px);
+}
+
+.facetwp-template__single--status >div{
+    margin-top: 8px;
+}
+
+.facetwp-template__single--status .dashicons-admin-comments{
+    line-height: 24px;
 }
 
 .facetwp-template__single--content{
     order: 1;
+
 }
 
 .facetwp-template__single--status table{
@@ -69,13 +81,14 @@
 
 @media only screen and (min-width: 480px) {
     .facetwp-template__single{
-        grid-template-columns: 150px 1fr;
+        grid-template-columns: 80px 1fr;
     }
     .facetwp-template__single >div{
         padding: 2rem;
     }
-    .facetwp-template__single--status{
+    .facetwp-template__single .facetwp-template__single--status{
         order: 1;
+        padding-right: 0;
     }
     
     .facetwp-template__single--content{

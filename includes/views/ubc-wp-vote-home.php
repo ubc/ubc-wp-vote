@@ -32,33 +32,27 @@ while ( have_posts() ) :
 	?>
 	<div class="facetwp-template__single">
 		<div class="facetwp-template__single--status">
-			<table>
-				<tr>
-					<td>
-						<?php
-						echo floatval(
-							get_comments(
-								array(
-									'post_id' => get_the_ID(),
-									'count'   => true,
-								)
-							)
-						);
-						?>
-					</td>
-					<td>
-						<span class="dashicons dashicons-admin-comments"></span>
-					</td>
-				</tr>
-				<tr>
-					<td>
-						<?php echo floatval( $total_rating ); ?>
-					</td>
-					<td>
-						<span class="dashicons dashicons-star-filled"></span>
-					</td>
-				</tr>
-			</table>
+			<div>
+				<?php
+				echo floatval(
+					get_comments(
+						array(
+							'post_id' => get_the_ID(),
+							'count'   => true,
+						)
+					)
+				);
+				?>
+			</div>
+			<div>
+				<span class="dashicons dashicons-admin-comments"></span>
+			</div>
+			<div>
+				<?php echo floatval( $total_rating ); ?>
+			</div>
+			<div>
+				<span class="dashicons dashicons-star-filled"></span>
+			</div>
 		</div>
 		<div class="facetwp-template__single--content">
 			<h2><a href="<?php echo esc_url( get_the_permalink() ); ?>"><?php echo esc_html( get_the_title() ); ?></a></h2>
