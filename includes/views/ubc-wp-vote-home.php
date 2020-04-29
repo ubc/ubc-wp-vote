@@ -35,15 +35,24 @@ while ( have_posts() ) :
 			<table>
 				<tr>
 					<td>
-						<?php echo floatval( $total_rating ); ?>
+						<?php
+						echo floatval(
+							get_comments(
+								array(
+									'post_id' => get_the_ID(),
+									'count'   => true,
+								)
+							)
+						);
+						?>
 					</td>
 					<td>
-						<span class="dashicons dashicons-thumbs-up"></span>
+						<span class="dashicons dashicons-admin-comments"></span>
 					</td>
 				</tr>
 				<tr>
 					<td>
-						<?php echo intval( $total_thumbs_up ); ?>
+						<?php echo floatval( $total_rating ); ?>
 					</td>
 					<td>
 						<span class="dashicons dashicons-star-filled"></span>
