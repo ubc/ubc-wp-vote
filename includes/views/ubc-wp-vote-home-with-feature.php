@@ -66,7 +66,8 @@ do_action( 'ubc_wp_vote_template_home' );
 				// Escape array.
 				$terms = array_map(
 					function( $term ) {
-						return esc_html( $term->name );
+						$term = get_term_by( 'name', esc_html( $term->name ), 'category' );
+						return '<a class="ubc-wp-vote__facet-category" href="' . get_category_link( intval( $term->term_id ) ) . '" data-cat="' . esc_attr( $term->slug ) . '">' . esc_html( $term->name ) . '</a>';
 					},
 					$terms
 				);
