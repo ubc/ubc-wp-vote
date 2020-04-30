@@ -89,7 +89,7 @@ $is_rating_valid     = 'comment' !== $object_type ? \UBC\CTLT\WPVote\WP_Vote_Set
 
 <?php if ( $is_rating_valid ) : ?>
 	<div class="ubc-wp-vote__star-rating" data-id="<?php echo esc_attr( $object_id ); ?>" data-type="<?php echo esc_attr( $object_type ); ?>">
-		<p>Rate this content:</p>
+		<p><?php echo esc_html( __( 'Rate this content' ) ); ?>:</p>
 		<?php if ( is_user_logged_in() ) : ?>
 			<div class="ubc-wp-vote_star_rating--current">
 			<?php
