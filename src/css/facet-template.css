@@ -1,3 +1,4 @@
+/** Filters **/
 .ubc-wp-vote__facetwp-filters{
     padding: 2rem 1rem;
     background-color: #f1f1f1;
@@ -31,35 +32,62 @@
     border-radius: 5px !important;
 }
 
+/** Template **/
 .facetwp-template__single{
     display: grid;
-    grid-template-columns: 1fr;
     border-width: 4px;
     border-style: solid;
     border-color: var(--ubcpostborder, #f1f1f1);
-    min-height: 150px;
+    padding: 2rem;
     margin-bottom: 2rem;
+    grid-template-columns: 80px 1fr auto;
+    grid-template-rows: auto;
+    grid-gap: 1rem;
+    gap: 1rem;
+    grid-template-areas:
+        "overview title"
+        "overview meta"
+        "content content"
+        "feature feature";
 }
 
-.facetwp-template__single >div{
-    padding: 1rem 2rem;
-}
-
-.facetwp-template__single h2{
-    margin-top: 0;
-    margin-bottom: 0;
-    font-weight: normal;
+.facetwp-template__single--overview{
+    grid-area: overview;
 }
 
 .facetwp-template__single--status{
     order: 2;
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, 25px);
     grid-template-rows: repeat(2, 25px);
+    justify-items: center;
 }
 
-.facetwp-template__single--status >div{
-    margin-top: 8px;
+.facetwp-template__single--title{
+    grid-area: title;
+    font-size: 1.4rem;
+    line-height: 1.5;
+    margin-top: 0;
+    margin-bottom: 0;
+    font-weight: normal;
+}
+
+.facetwp-template__single--meta{
+    grid-area: meta;
+}
+
+.facetwp-template__single--content{
+    grid-area: content;
+}
+
+.facetwp-template__single--feature{
+    grid-area: feature;
+}
+
+.facetwp-template__single--avatar > img{
+    border-radius: 50%;
+    margin-bottom: .5rem;
+    width: 60px;
 }
 
 .facetwp-template__single--status .dashicons{
@@ -70,32 +98,30 @@
     line-height: 24px;
 }
 
-.facetwp-template__single--content{
-    order: 1;
-
+.facetwp-template__single--readmore{
+    margin-top: 1rem;
 }
 
-.facetwp-template__single--status table{
-    margin-top: 12px;
-}
-
-.facetwp-template__single--status table td:first-child{
-    width: 25px;
-}
-
-@media only screen and (min-width: 480px) {
+@media only screen and (min-width: 768px) {
     .facetwp-template__single{
-        grid-template-columns: 80px 1fr;
-    }
-    .facetwp-template__single >div{
+        display: grid;
+        border-width: 4px;
+        border-style: solid;
+        border-color: var(--ubcpostborder, #f1f1f1);
         padding: 2rem;
+        margin-bottom: 2rem;
+        grid-template-columns: 80px 1fr auto;
+        grid-template-rows: auto;
+        grid-gap: 1rem;
+        gap: 1rem;
+        grid-template-areas:
+            "overview title feature"
+            "overview meta feature"
+            "overview content feature";
     }
-    .facetwp-template__single .facetwp-template__single--status{
-        order: 1;
-        padding-right: 0;
-    }
-    
-    .facetwp-template__single--content{
-        order: 2;
+
+    .facetwp-template__single--title{
+        font-size: 1.7rem;
+        line-height: 1.5;
     }
 }
