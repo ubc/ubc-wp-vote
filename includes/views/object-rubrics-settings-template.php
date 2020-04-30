@@ -12,7 +12,7 @@
 
 <section class="ubc-wp-vote-metabox">
 	<label for="">
-		Rubrics for <?php echo esc_html( $object_title ); ?>?
+		<?php echo esc_html( __( 'Rubrics for' ) ); ?> <?php echo esc_html( $object_title ); ?>?
 	</label>
 
 		<ul
@@ -27,9 +27,7 @@
 					type="checkbox"
 					name="<?php echo esc_attr( $option_name ) . 'rubrics[]'; ?>"
 					value="<?php echo esc_attr( $rubric->name ); ?>"
-					<?php if ( \UBC\CTLT\WPVote\WP_Vote_Settings::is_object_rubric_valid( $rubric->name, intval( get_the_ID() ), 'COMMENT' === $object_title ) ) : ?>
-					checked
-					<?php endif; ?>
+					<?php checked( \UBC\CTLT\WPVote\WP_Vote_Settings::is_object_rubric_valid( $rubric->name, intval( get_the_ID() ), 'COMMENT' === $object_title ), 1 ); ?>
 				/>
 			</li>
 		<?php endforeach; ?>

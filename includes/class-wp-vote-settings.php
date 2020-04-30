@@ -43,19 +43,19 @@ class WP_Vote_Settings {
 	public static function init() {
 		self::$default_rubrics       = array(
 			array(
-				'label'       => 'Upvote',
+				'label'       => __( 'Upvote' ),
 				'name'        => 'upvote',
-				'description' => 'Provide ability to upvote a post or comment',
+				'description' => __( 'Provide ability to upvote a post or comment' ),
 			),
 			array(
-				'label'       => 'Downvote',
+				'label'       => __( 'Downvote' ),
 				'name'        => 'downvote',
-				'description' => 'Provide ability to downvote a post or comment',
+				'description' => __( 'Provide ability to downvote a post or comment' ),
 			),
 			array(
-				'label'       => 'Rating',
+				'label'       => __( 'Rating' ),
 				'name'        => 'rating',
-				'description' => 'A 1-5 star rating system, which shows average rating.',
+				'description' => __( 'A 1-5 star rating system, which shows average rating.' ),
 			),
 		);
 		self::$post_types_to_exclude = array( 'attachment', 'ubc_wp_vote_rubric' );
