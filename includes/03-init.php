@@ -13,6 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 add_action( 'wp_enqueue_scripts', __NAMESPACE__ . '\\load_styles_scripts_single' );
+add_action( 'ubc_wp_vote_setting_metabox', __NAMESPACE__ . '\\load_styles_scripts_meta_box' );
 add_action( 'ubc_wp_vote_template_home', __NAMESPACE__ . '\\load_styles_scripts_home' );
 add_action( 'wp-hybrid-clf_after_entry', __NAMESPACE__ . '\\render_post_content_actions' );
 add_action( 'wp-hybrid-clf_after_comment', __NAMESPACE__ . '\\render_comment_content_actions' );
@@ -25,8 +26,6 @@ add_filter( 'facetwp_sort_options', __NAMESPACE__ . '\\facetwp_sort_options' );
  * @return void
  */
 function load_styles_scripts_single() {
-	global $post;
-
 	if ( ! is_singular() ) {
 		return;
 	}
@@ -62,8 +61,6 @@ function load_styles_scripts_single() {
  * @return void
  */
 function load_styles_scripts_home() {
-	global $post;
-
 	wp_enqueue_script(
 		'ctlt_wp_vote_home_js',
 		UBC_WP_VOTE_PLUGIN_URL . 'src/js/facet-template.js',
@@ -80,6 +77,21 @@ function load_styles_scripts_home() {
 	);
 	wp_enqueue_style( 'ctlt_wp_vote_home_css' );
 }//end load_styles_scripts_home()
+
+/**
+ * Enqueue styles and scripts for facet home page.
+ *
+ * @return void
+ */
+function load_styles_scripts_meta_box() {
+	wp_register_style(
+		'ctlt_wp_vote_metabox_css',
+		UBC_WP_VOTE_PLUGIN_URL . 'src/css/metabox.css',
+		false,
+		filemtime( UBC_WP_VOTE_PLUGIN_DIR . 'src/css/metabox.css' )
+	);
+	wp_enqueue_style( 'ctlt_wp_vote_metabox_css' );
+}//end load_styles_scripts_meta_box()
 
 /**
  * Render rubric actions at the bottom of post content area.

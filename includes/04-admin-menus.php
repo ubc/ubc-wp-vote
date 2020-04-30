@@ -26,7 +26,7 @@ function register_admin_menus() {
 		'options-general.php',
 		__( 'UBC WP Vote', 'ubc' ),
 		__( 'UBC WP Vote', 'ubc' ),
-		'edit_posts',
+		'manage_options', // for admin user only.
 		'ubc_wp_vote_settings',
 		__NAMESPACE__ . '\\render_settings_page'
 	);

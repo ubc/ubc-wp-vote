@@ -20,24 +20,30 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 function generate_required_rubrics() {
 	$object_types = \UBC\CTLT\WPVote\WP_Vote_Settings::get_default_rubrics();
-	foreach ( $object_types as $key => $rubric_title ) {
-		$rubric_found = get_page_by_title( $rubric_title, 'OBJECT', 'ubc_wp_vote_rubric' );
+	foreach ( $object_types as $key => $rubric ) {
+		$rubric_found = get_page_by_title( $rubric['label'], 'OBJECT', 'ubc_wp_vote_rubric' );
 		// If rubric not found, create the rubric.
 		// Slug will be generated based on title.
 		if ( ! $rubric_found ) {
 			wp_insert_post(
 				array(
-					'post_title'  => $rubric_title,
-					'post_type'   => 'ubc_wp_vote_rubric',
-					'post_status' => 'publish',
+					'post_title'   => $rubric['label'],
+					'post_name'    => $rubric['name'],
+					'post_content' => $rubric['description'],
+					'post_type'    => 'ubc_wp_vote_rubric',
+					'post_status'  => 'publish',
 				)
 			);
 			// If rubric found but not published, publish the rubric.
-		} elseif ( 'publish' !== $rubric_found->post_status ) {
+		} else {
 			wp_update_post(
 				array(
-					'ID'          => $rubric_found->ID,
-					'post_status' => 'publish',
+					'ID'           => $rubric_found->ID,
+					'post_title'   => $rubric['label'],
+					'post_name'    => $rubric['name'],
+					'post_content' => $rubric['description'],
+					'post_type'    => 'ubc_wp_vote_rubric',
+					'post_status'  => 'publish',
 				)
 			);
 		}

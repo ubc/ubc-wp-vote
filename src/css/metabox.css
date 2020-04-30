@@ -1,0 +1,9 @@
+.ubc-wp-vote-metabox{
+    margin: 1rem 0;
+}
+
+.ubc-wp-vote-metabox li{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}

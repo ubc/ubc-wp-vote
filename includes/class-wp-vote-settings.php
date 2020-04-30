@@ -41,7 +41,23 @@ class WP_Vote_Settings {
 	 * @return void
 	 */
 	public static function init() {
-		self::$default_rubrics       = array( 'Upvote', 'Downvote', 'Rating' );
+		self::$default_rubrics       = array(
+			array(
+				'label'       => 'Upvote',
+				'name'        => 'upvote',
+				'description' => 'Provide ability to upvote a post or comment',
+			),
+			array(
+				'label'       => 'Downvote',
+				'name'        => 'downvote',
+				'description' => 'Provide ability to downvote a post or comment',
+			),
+			array(
+				'label'       => 'Rating',
+				'name'        => 'rating',
+				'description' => 'A 1-5 star rating system, which shows average rating.',
+			),
+		);
 		self::$post_types_to_exclude = array( 'attachment', 'ubc_wp_vote_rubric' );
 
 		if ( is_admin() ) {
@@ -77,7 +93,7 @@ class WP_Vote_Settings {
 
 		add_meta_box(
 			'ubc_wp_vote_valid_post_type',
-			'WP Vote activated rubrics',
+			'Rubrics',
 			function() {
 				// Post metafields.
 				$option_name  = 'ubc-wp-vote-settings-';
@@ -105,9 +121,6 @@ class WP_Vote_Settings {
 		if ( ! isset( $post->ID ) || 1 !== check_admin_referer( 'ubc_wp_vote', 'ubc_wp_vote_rubric_metabox' ) ) {
 			return;
 		}
-
-		update_post_meta( $post->ID, 'ubc-wp-vote-settings-override', isset( $_POST['ubc-wp-vote-settings-override'] ) ? true : false );
-		update_post_meta( $post->ID, 'ubc-wp-vote-settings-comment-override', isset( $_POST['ubc-wp-vote-settings-comment-override'] ) ? true : false );
 
 		if ( isset( $_POST['ubc-wp-vote-settings-rubrics'] ) ) {
 			// Sanitizing array.
@@ -180,8 +193,8 @@ class WP_Vote_Settings {
 		);
 
 		// As comment as an option.
-		$comment                  = new \stdClass();
-		$comment->label           = 'Comment';
+		$comment                 = new \stdClass();
+		$comment->label          = 'Comment';
 		$object_types['comment'] = $comment;
 
 		return $object_types;
@@ -202,9 +215,10 @@ class WP_Vote_Settings {
 
 		return array_map(
 			function( $rubric ) {
-				$formated        = new \stdClass();
-				$formated->label = $rubric->post_title;
-				$formated->name  = $rubric->post_name;
+				$formated              = new \stdClass();
+				$formated->label       = $rubric->post_title;
+				$formated->name        = $rubric->post_name;
+				$formated->description = $rubric->post_content;
 				return $formated;
 			},
 			$rubrics
@@ -226,24 +240,20 @@ class WP_Vote_Settings {
 			return false;
 		}
 
-		$id = intval( $post->ID );
+		$id        = intval( $post->ID );
 		$post_type = sanitize_key( $post->post_type );
 
-		// If the settings has been overrided locally inside post, return result directly.
-		$override_meta_key = $is_comment ? 'ubc-wp-vote-settings-comment-override' : 'ubc-wp-vote-settings-override';
-		$rubrics_meta_key  = $is_comment ? 'ubc-wp-vote-settings-comment-rubrics' : 'ubc-wp-vote-settings-rubrics';
+		// If the settings exist locally.
+		$rubrics_meta_key = $is_comment ? 'ubc-wp-vote-settings-comment-rubrics' : 'ubc-wp-vote-settings-rubrics';
 
-		if ( get_post_meta( intval( $id ), sanitize_key( $override_meta_key ), true ) ) {
-			// Global settings has been overrided, actions below.
+		if ( metadata_exists( $is_comment ? 'comment' : 'post', intval( $id ), $rubrics_meta_key ) ) {
 			$active_rubrics = get_post_meta( intval( $id ), sanitize_key( $rubrics_meta_key ), true );
 			$active_rubrics = is_array( $active_rubrics ) ? $active_rubrics : array();
-
 			return in_array( $rubric_name, $active_rubrics, true );
 		}
 
-		// If global settings has not been overrided.
+		// If settings does not exist locally, fetch global settings.
 		$global_active_rubrics = get_option( 'ubc_wp_vote_valid_post_types' );
-
 		if ( ! $global_active_rubrics || ! isset( $global_active_rubrics[ $rubric_name ] ) ) {
 			return false;
 		}
