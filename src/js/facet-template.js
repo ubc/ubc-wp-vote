@@ -21,4 +21,22 @@
         }
 
     }, false);
+
+    document.addEventListener('click', function ( event ) {
+
+        if ( event.target.matches('.ubc-wp-vote__facet-category') ) {
+            event.preventDefault();
+
+            var catFilter = document.querySelectorAll( '.facetwp-facet[data-name="category"]' );
+
+            if ( ! catFilter[0] ) {
+                return;
+            }
+
+            catFilter = catFilter[0].querySelector( '.facetwp-dropdown' );
+            catFilter.value = event.target.dataset.cat;
+            FWP.refresh();
+        }
+
+    }, false);
 })();
