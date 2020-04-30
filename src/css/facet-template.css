@@ -51,12 +51,6 @@
         "feature feature";
 }
 
-.ubc-wp-vote__facet-category{
-    background: none;
-    border: 0;
-    padding: 0;
-}
-
 .facetwp-template__single--overview{
     grid-area: overview;
 }
