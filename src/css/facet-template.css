@@ -67,6 +67,9 @@
     grid-area: title;
     font-size: 1.4rem;
     line-height: 1.5;
+    margin-top: 0;
+    margin-bottom: 0;
+    font-weight: normal;
 }
 
 .facetwp-template__single--meta{
@@ -85,12 +88,6 @@
     border-radius: 50%;
     margin-bottom: .5rem;
     width: 60px;
-}
-
-.facetwp-template__single--title{
-    margin-top: 0;
-    margin-bottom: 0;
-    font-weight: normal;
 }
 
 .facetwp-template__single--status .dashicons{
@@ -124,7 +121,6 @@
     }
 
     .facetwp-template__single--title{
-        grid-area: title;
         font-size: 1.7rem;
         line-height: 1.5;
     }
