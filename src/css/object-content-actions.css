@@ -47,10 +47,14 @@
 	display: flex;
 	flex-wrap: wrap;
 	margin-top: .5rem;
+	padding: 1rem;
+	margin-bottom: 1rem;
+	background: #f1f1f1;
 }
 
 .ubc-wp-vote__star-rating > * {
 	margin-right: 1rem;
+	margin-bottom: 0;
 }
 
 .ubc-wp-vote__star-rating--overall {
