@@ -8,6 +8,7 @@
 do_action( 'ubc_wp_vote_template_home' );
 
 ?>
+<button class="facet-template__toggle btn btn-primary">Reset filters</button>
 <div class="facet-template--default">
 	<?php
 	while ( have_posts() ) :

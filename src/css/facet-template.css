@@ -5,6 +5,10 @@
     margin-bottom: 2rem;
 }
 
+.facet-template__toggle, .facet-template__filter-close{
+    display: none;
+}
+
 .facet-wrap{
     display: inline-block;
 }
@@ -38,7 +42,7 @@
     border-width: 4px;
     border-style: solid;
     border-color: var(--ubcpostborder, #f1f1f1);
-    padding: 2rem;
+    padding: 1rem;
     margin-bottom: 2rem;
     grid-template-columns: 80px 1fr auto;
     grid-template-rows: auto;
@@ -47,8 +51,7 @@
     grid-template-areas:
         "overview title"
         "overview meta"
-        "content content"
-        "feature feature";
+        "content content";
 }
 
 .facetwp-template__single--overview{
@@ -65,8 +68,8 @@
 
 .facetwp-template__single--title{
     grid-area: title;
-    font-size: 1.4rem;
-    line-height: 1.5;
+    font-size: 1rem;
+    line-height: 1.2;
     margin-top: 0;
     margin-bottom: 0;
     font-weight: normal;
@@ -74,6 +77,8 @@
 
 .facetwp-template__single--meta{
     grid-area: meta;
+    font-size: .8rem;
+    line-height: 1.5;
 }
 
 .facetwp-template__single--content{
@@ -82,6 +87,7 @@
 
 .facetwp-template__single--feature{
     grid-area: feature;
+    display: none;
 }
 
 .facetwp-template__single--avatar > img{
@@ -99,7 +105,15 @@
 }
 
 .facetwp-template__single--readmore{
-    margin-top: 1rem;
+    margin-top: .5rem;
+}
+
+.dashicons-admin-comments:before {
+    content: "\f101";
+}
+
+.dashicons-star-filled:before {
+    content: "\f155";
 }
 
 @media only screen and (min-width: 768px) {
@@ -124,12 +138,41 @@
         font-size: 1.7rem;
         line-height: 1.5;
     }
+
+    .facetwp-template__single--feature{
+        display: block;
+    }
 }
 
-.dashicons-admin-comments:before {
-    content: "\f101";
-}
+@media only screen and (max-width: 767px) {
+    .ubc-wp-vote__facetwp-filters{
+        position: fixed;
+        left: -100vw;
+        top: 0;
+        width: 100%;
+        height: 100vh;
+        max-width: 60vw;
+        z-index: 99;
+        transition: left .3s ease-in 0s;
+    }
 
-.dashicons-star-filled:before {
-    content: "\f155";
+    .ubc-wp-vote__facetwp-filters.show{
+        left: 0;
+    }
+
+    .facet-template__toggle{
+        display: block;
+        margin-bottom: 1rem;
+    }
+
+    .facet-template__filter-close{
+        display: block;
+        margin-top: 1rem;
+    }
+
+    .facet-template__toggle.fixed{
+        position: fixed;
+        left: 20px;
+        top: 0;
+    }
 }
