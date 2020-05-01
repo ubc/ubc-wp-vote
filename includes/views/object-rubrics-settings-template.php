@@ -20,15 +20,15 @@
 		>
 		<?php foreach ( $rubrics as $key => $rubric ) : ?>
 			<li>
-				<label>
-					<?php echo esc_html( $rubric->label ); ?>
-				</label>
 				<input
 					type="checkbox"
 					name="<?php echo esc_attr( $option_name ) . 'rubrics[]'; ?>"
 					value="<?php echo esc_attr( $rubric->name ); ?>"
 					<?php checked( \UBC\CTLT\WPVote\WP_Vote_Settings::is_object_rubric_valid( $rubric->name, intval( get_the_ID() ), 'COMMENT' === $object_title ), 1 ); ?>
 				/>
+				<label>
+					<?php echo esc_html( $rubric->label ); ?>
+				</label>
 			</li>
 		<?php endforeach; ?>
 	</ul>
