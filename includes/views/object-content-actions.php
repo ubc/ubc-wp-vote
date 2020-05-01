@@ -103,7 +103,7 @@ $is_rating_valid     = 'comment' !== $object_type ? \UBC\CTLT\WPVote\WP_Vote_Set
 		<?php endif; ?>
 
 		<span class="ubc-wp-vote__star-rating--overall">
-			(&nbsp;Average Rating: 
+			(&nbsp;<?php echo esc_html( __( 'Average Rating' ) ); ?>: 
 			<span
 				class="ubc-wp-vote__rating"
 				data-current_average="<?php echo $current_user_rating ? floatval( $current_user_rating ) : 0; ?>"
