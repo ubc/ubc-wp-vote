@@ -69,6 +69,14 @@ function load_styles_scripts_home() {
 		true
 	);
 
+	wp_enqueue_script(
+		'ctlt_wp_vote_home_polyfill_js',
+		UBC_WP_VOTE_PLUGIN_URL . 'src/js/smoothscroll-polyfill.js',
+		array( 'jquery' ),
+		filemtime( UBC_WP_VOTE_PLUGIN_DIR . 'src/js/smoothscroll-polyfill.js' ),
+		true
+	);
+
 	wp_register_style(
 		'ctlt_wp_vote_home_css',
 		UBC_WP_VOTE_PLUGIN_URL . 'src/css/facet-template.css',
