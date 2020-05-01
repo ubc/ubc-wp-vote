@@ -125,3 +125,11 @@
         line-height: 1.5;
     }
 }
+
+.dashicons-admin-comments:before {
+    content: "\f101";
+}
+
+.dashicons-star-filled:before {
+    content: "\f155";
+}
