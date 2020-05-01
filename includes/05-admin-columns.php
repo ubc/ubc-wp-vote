@@ -22,6 +22,8 @@ if ( is_admin() ) {
 			add_filter( 'manage_edit-' . $key . '_sortable_columns', __NAMESPACE__ . '\\manage_sortable_columns' );
 		}
 	}
+	add_filter( 'manage_users_columns', __NAMESPACE__ . '\\filter_user_columns' );
+	add_filter( 'manage_users_custom_column', __NAMESPACE__ . '\\filter_user_columns_content', 10, 3 );
 
 	add_action( 'restrict_manage_posts', __NAMESPACE__ . '\\admin_custom_post_filter_rating' );
 	add_filter( 'parse_query', __NAMESPACE__ . '\\admin_custom_post_filter_rating_query' );
@@ -65,6 +67,79 @@ function filter_posts_columns( $columns ) {
 
 	return $columns;
 }//end filter_posts_columns()
+
+/**
+ * Add extra columns in WordPress user listing page.
+ *
+ * @param array $columns existing columns.
+ * @return array
+ */
+function filter_user_columns( $columns ) {
+	$columns['num_comments']  = '# of comments';
+	$columns['num_ratings']   = '# of ratings<div>( posts & comments )</div>';
+	$columns['num_upvotes']   = '# of upvotes<div>( posts & comments )</div>';
+	$columns['num_downvotes'] = '# of downvotes<div>( posts & comments )</div>';
+	return $columns;
+}//end filter_user_columns()
+
+/**
+ * Polulated data for admin user page custom columns.
+ *
+ * @param [string] $output original output.
+ * @param [string] $column_name name of the column to update value.
+ * @param [number] $user_id ID of user attached.
+ * @return string
+ */
+function filter_user_columns_content( $output, $column_name, $user_id ) {
+	switch ( $column_name ) {
+		case 'num_comments':
+			$args = array(
+				'user_id' => $user_id,
+				'count'   => true,
+			);
+			return get_comments( $args );
+		case 'num_ratings':
+			$rubric = get_page_by_title( 'Rating', 'OBJECT', 'ubc_wp_vote_rubric' );
+			if ( ! $rubric ) {
+				return false;
+			}
+			$records = \UBC\CTLT\WPVote\WP_Vote_DB::get_vote_meta(
+				array(
+					'user_id'   => intval( $user_id ),
+					'site_id'   => intval( get_current_blog_id() ),
+					'rubric_id' => intval( $rubric->ID ),
+				)
+			);
+			return is_array( $records ) ? count( $records ) : 0;
+		case 'num_upvotes':
+			$rubric = get_page_by_title( 'Upvote', 'OBJECT', 'ubc_wp_vote_rubric' );
+			if ( ! $rubric ) {
+				return false;
+			}
+			$records = \UBC\CTLT\WPVote\WP_Vote_DB::get_vote_meta(
+				array(
+					'user_id'   => intval( $user_id ),
+					'site_id'   => intval( get_current_blog_id() ),
+					'rubric_id' => intval( $rubric->ID ),
+				)
+			);
+			return is_array( $records ) ? count( $records ) : 0;
+		case 'num_downvotes':
+			$rubric = get_page_by_title( 'Downvote', 'OBJECT', 'ubc_wp_vote_rubric' );
+			if ( ! $rubric ) {
+				return false;
+			}
+			$records = \UBC\CTLT\WPVote\WP_Vote_DB::get_vote_meta(
+				array(
+					'user_id'   => intval( $user_id ),
+					'site_id'   => intval( get_current_blog_id() ),
+					'rubric_id' => intval( $rubric->ID ),
+				)
+			);
+			return is_array( $records ) ? count( $records ) : 0;
+	}
+	return $output;
+}
 
 /**
  * Polulated data for custom columns.
