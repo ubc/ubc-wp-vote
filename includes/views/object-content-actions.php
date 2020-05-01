@@ -89,7 +89,7 @@ $is_rating_valid     = 'comment' !== $object_type ? \UBC\CTLT\WPVote\WP_Vote_Set
 
 <?php if ( $is_rating_valid ) : ?>
 	<div class="ubc-wp-vote__star-rating" data-id="<?php echo esc_attr( $object_id ); ?>" data-type="<?php echo esc_attr( $object_type ); ?>">
-
+		<p><?php esc_html_e( 'Rate this content' ); ?>:</p>
 		<?php if ( is_user_logged_in() ) : ?>
 			<div class="ubc-wp-vote_star_rating--current">
 			<?php
@@ -103,7 +103,7 @@ $is_rating_valid     = 'comment' !== $object_type ? \UBC\CTLT\WPVote\WP_Vote_Set
 		<?php endif; ?>
 
 		<span class="ubc-wp-vote__star-rating--overall">
-			(&nbsp;Average Rating: 
+			(&nbsp;<?php esc_html_e( 'Average Rating' ); ?>: 
 			<span
 				class="ubc-wp-vote__rating"
 				data-current_average="<?php echo $current_user_rating ? floatval( $current_user_rating ) : 0; ?>"

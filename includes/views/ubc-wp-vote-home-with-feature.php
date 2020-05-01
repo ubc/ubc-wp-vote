@@ -8,6 +8,7 @@
 do_action( 'ubc_wp_vote_template_home' );
 
 ?>
+<div class="facet-template__toggle"><button class="btn btn-primary"><?php esc_html_e( 'Filter content' ); ?></button></div>
 <div class="facet-template--with-feature">
 	<?php
 	while ( have_posts() ) :
@@ -66,7 +67,8 @@ do_action( 'ubc_wp_vote_template_home' );
 				// Escape array.
 				$terms = array_map(
 					function( $term ) {
-						return esc_html( $term->name );
+						$term = get_term_by( 'name', esc_html( $term->name ), 'category' );
+						return '<a class="ubc-wp-vote__facet-category" href="' . esc_url( get_category_link( intval( $term->term_id ) ) ) . '" data-cat="' . esc_attr( $term->slug ) . '">' . esc_html( $term->name ) . '</a>';
 					},
 					$terms
 				);
@@ -79,7 +81,7 @@ do_action( 'ubc_wp_vote_template_home' );
 
 			<div class="facetwp-template__single--content">
 				<p><?php echo esc_html( get_the_excerpt() ); ?></p>
-				<a class="btn btn-primary facetwp-template__single--readmore" href="<?php echo esc_url( get_the_permalink() ); ?>">Read More</a>
+				<a class="btn btn-primary facetwp-template__single--readmore" href="<?php echo esc_url( get_the_permalink() ); ?>"><?php esc_html_e( 'Read More' ); ?></a>
 			</div>
 			<div class="facetwp-template__single--feature">
 				<a href="<?php echo esc_url( get_the_permalink() ); ?>"><?php the_post_thumbnail( 'thumbnail' ); ?></a>

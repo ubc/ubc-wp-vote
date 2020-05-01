@@ -11,7 +11,7 @@
 ?>
 
 	<div class="wrap">
-		<h1>UBC WP Vote Settings</h1>
+		<h1><?php esc_html_e( 'UBC WP Vote Settings' ); ?></h1>
 
 		<form method="post" action="options.php">
 			<?php
@@ -20,8 +20,8 @@
 				$types = get_option( 'ubc_wp_vote_valid_post_types' ) ? get_option( 'ubc_wp_vote_valid_post_types' ) : array();
 			?>
 			<section id="group_fields">
-				<h2 class="group-fields-heading">Default rubrics for post types</h2>
-				<p>These site-wide settings set the default status for each rubric. Checking a box next to a post type here means that particular rubric will be shown by default on single posts of that post type. You can override this site-wide setting for each individual post.</p>
+				<h2 class="group-fields-heading"><?php esc_html_e( 'Default rubrics for post types' ); ?></h2>
+				<p><?php esc_html_e( 'These site-wide settings set the default status for each rubric. Checking a box next to a post type here means that particular rubric will be shown by default on single posts of that post type. You can override this site-wide setting for each individual post.' ); ?></p>
 				<table class="form-table">
 					<tbody>
 						<?php foreach ( $rubrics as $key => $rubric ) : ?>

@@ -4,6 +4,10 @@
 
 .ubc-wp-vote-metabox li{
     display: flex;
-    justify-content: space-between;
     align-items: center;
+}
+
+.ubc-wp-vote-metabox li input[type=checkbox]{
+    margin-top: 0;
+    margin-bottom: 0;
 }
