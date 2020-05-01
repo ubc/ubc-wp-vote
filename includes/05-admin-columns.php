@@ -75,10 +75,10 @@ function filter_posts_columns( $columns ) {
  * @return array
  */
 function filter_user_columns( $columns ) {
-	$columns['num_comments']  = '# of comments';
-	$columns['num_ratings']   = '# of ratings<div>( posts & comments )</div>';
-	$columns['num_upvotes']   = '# of upvotes<div>( posts & comments )</div>';
-	$columns['num_downvotes'] = '# of downvotes<div>( posts & comments )</div>';
+	$columns['num_comments']  = __( '# of comments' );
+	$columns['num_ratings']   = __( '# of ratings' ) . '<div>( ' . __( 'posts & comments' ) . ' )</div>';
+	$columns['num_upvotes']   = __( '# of upvotes' ) . '<div>( ' . __( 'posts & comments' ) . ' )</div>';
+	$columns['num_downvotes'] = __( '# of downvotes' ) . '<div>( ' . __( 'posts & comments' ) . ' )</div>';
 	return $columns;
 }//end filter_user_columns()
 
@@ -101,7 +101,7 @@ function filter_user_columns_content( $output, $column_name, $user_id ) {
 		case 'num_ratings':
 			$rubric = get_page_by_title( 'Rating', 'OBJECT', 'ubc_wp_vote_rubric' );
 			if ( ! $rubric ) {
-				return false;
+				return 0;
 			}
 			$records = \UBC\CTLT\WPVote\WP_Vote_DB::get_vote_meta(
 				array(
@@ -114,7 +114,7 @@ function filter_user_columns_content( $output, $column_name, $user_id ) {
 		case 'num_upvotes':
 			$rubric = get_page_by_title( 'Upvote', 'OBJECT', 'ubc_wp_vote_rubric' );
 			if ( ! $rubric ) {
-				return false;
+				return 0;
 			}
 			$records = \UBC\CTLT\WPVote\WP_Vote_DB::get_vote_meta(
 				array(
@@ -127,7 +127,7 @@ function filter_user_columns_content( $output, $column_name, $user_id ) {
 		case 'num_downvotes':
 			$rubric = get_page_by_title( 'Downvote', 'OBJECT', 'ubc_wp_vote_rubric' );
 			if ( ! $rubric ) {
-				return false;
+				return 0;
 			}
 			$records = \UBC\CTLT\WPVote\WP_Vote_DB::get_vote_meta(
 				array(
