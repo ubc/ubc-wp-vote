@@ -12,7 +12,7 @@
 
 <section class="ubc-wp-vote-metabox">
 	<label for="">
-		<?php echo esc_html( __( 'Rubrics for' ) ); ?> <?php echo esc_html( $object_title ); ?>?
+		<?php esc_html_e( 'Rubrics for' ); ?> <?php echo esc_html( $object_title ); ?>?
 	</label>
 
 		<ul
