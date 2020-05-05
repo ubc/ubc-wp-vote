@@ -75,11 +75,12 @@ function filter_posts_columns( $columns ) {
  * @return array
  */
 function filter_user_columns( $columns ) {
-	$columns['num_comments']  = __( '# of comments' );
-	$columns['num_ratings']   = __( '# of ratings' );
-	$columns['num_upvotes']   = __( '# of upvotes' );
-	$columns['num_downvotes'] = __( '# of downvotes' );
-	$columns['post_ratings']  = __( 'post ratings' );
+	$columns['num_comments']          = __( '# of comments' );
+	$columns['num_ratings']           = __( '# of ratings' );
+	$columns['num_upvotes']           = __( '# of upvotes' );
+	$columns['num_downvotes']         = __( '# of downvotes' );
+	$columns['post_ratings']          = __( 'post ratings' );
+	$columns['comments_appreciation'] = __( 'comments appreciation' );
 	return $columns;
 }//end filter_user_columns()
 
@@ -169,6 +170,33 @@ function filter_user_columns_content( $output, $column_name, $user_id ) {
 			);
 
 			return wp_star_rating( $args );
+		case 'comments_appreciation':
+			$rubric_upvote   = get_page_by_title( 'Upvote', 'OBJECT', 'ubc_wp_vote_rubric' );
+			$rubric_downvote = get_page_by_title( 'Downvote', 'OBJECT', 'ubc_wp_vote_rubric' );
+			if ( ! $rubric_upvote || ! $rubric_downvote ) {
+				return 'N/A';
+			}
+			$records_upvote = \UBC\CTLT\WPVote\WP_Vote_DB::get_vote_meta(
+				array(
+					'user_id'     => intval( $user_id ),
+					'site_id'     => intval( get_current_blog_id() ),
+					'rubric_id'   => intval( $rubric_upvote->ID ),
+					'vote_data'   => '1',
+					'object_type' => 'comment',
+				)
+			);
+			$records_downvote = \UBC\CTLT\WPVote\WP_Vote_DB::get_vote_meta(
+				array(
+					'user_id'     => intval( $user_id ),
+					'site_id'     => intval( get_current_blog_id() ),
+					'rubric_id'   => intval( $rubric_downvote->ID ),
+					'vote_data'   => '1',
+					'object_type' => 'comment',
+				)
+			);
+			$upvote_output   = false !== $records_upvote && is_array( $records_upvote ) ? count( $records_upvote ) : 0;
+			$downvote_output = false !== $records_downvote && is_array( $records_downvote ) ? count( $records_downvote ) : 0;
+			return '<div>Upvote count: ' . intval( $upvote_output ) . '</div><div>Downvote count: ' . intval( $downvote_output ) . '</div>';
 	}
 	return $output;
 }

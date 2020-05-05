@@ -124,6 +124,10 @@ class WP_Vote_DB {
 			$query_param[] = 'object_type = "' . sanitize_key( $args['object_type'] ) . '"';
 		}
 
+		if ( isset( $args['vote_data'] ) ) {
+			$query_param[] = 'vote_data = "' . sanitize_key( $args['vote_data'] ) . '"';
+		}
+
 		if ( 0 !== count( $query_param ) ) {
 			$result = $wpdb->get_results( "SELECT vote_data from $table_name WHERE " . join( ' AND ', $query_param ) );
 		} else {
