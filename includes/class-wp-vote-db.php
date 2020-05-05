@@ -124,6 +124,10 @@ class WP_Vote_DB {
 			$query_param[] = 'object_type = "' . sanitize_key( $args['object_type'] ) . '"';
 		}
 
+		if ( isset( $args['vote_data'] ) ) {
+			$query_param[] = 'vote_data = "' . sanitize_key( $args['vote_data'] ) . '"';
+		}
+
 		if ( 0 !== count( $query_param ) ) {
 			$result = $wpdb->get_results( "SELECT vote_data from $table_name WHERE " . join( ' AND ', $query_param ) );
 		} else {
@@ -136,4 +140,51 @@ class WP_Vote_DB {
 
 		return $result;
 	}//end get_vote_meta()
+
+	/**
+	 * Get vote data for all the posts created by a single user.
+	 *
+	 * @param [array] $args args including user_id, site_id and rubric_id.
+	 * @return boolean|array
+	 */
+	public static function get_vote_metas_for_user_posts( $args ) {
+		global $wpdb;
+		$post_table_name   = sanitize_key( $wpdb->prefix . 'posts' );
+		$global_table_name = sanitize_key( $wpdb->base_prefix . 'ubc_wp_vote' );
+
+		if ( ! isset( $args['user_id'] ) || ! isset( $args['site_id'] ) || ! isset( $args['rubric_id'] ) ) {
+			return false;
+		}
+
+		$author_id = intval( $args['user_id'] );
+		$site_id   = intval( $args['site_id'] );
+		$rubric_id = intval( $args['rubric_id'] );
+
+		$result = $wpdb->get_results(
+			$wpdb->prepare(
+				"
+				SELECT vote_data FROM 
+				( SELECT * FROM $post_table_name WHERE post_author = %d AND post_status = 'publish' ) AS posts
+				LEFT JOIN
+				( SELECT * FROM $global_table_name WHERE site_id = %d AND rubric_id = %d AND object_type != 'comment' ) AS votes
+				on posts.ID = votes.object_id
+				WHERE vote_data IS NOT NULL
+				",
+				$author_id,
+				$site_id,
+				$rubric_id
+			)
+		);
+
+		if ( null === $result ) {
+			return false;
+		}
+
+		return array_map(
+			function( $row ) {
+				return $row->vote_data;
+			},
+			$result
+		);
+	}//end get_vote_metas_for_user_posts()
 }

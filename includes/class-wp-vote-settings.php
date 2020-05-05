@@ -118,7 +118,7 @@ class WP_Vote_Settings {
 	public static function save_meta_boxes() {
 		global $post;
 
-		if ( ! isset( $post->ID ) || 1 !== check_admin_referer( 'ubc_wp_vote', 'ubc_wp_vote_rubric_metabox' ) ) {
+		if ( ! isset( $post->ID ) || ! isset( $_POST['ubc_wp_vote_rubric_metabox'] ) || false === check_admin_referer( 'ubc_wp_vote', 'ubc_wp_vote_rubric_metabox' ) ) {
 			return;
 		}
 
