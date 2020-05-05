@@ -20,6 +20,8 @@ add_action( 'wp-hybrid-clf_after_comment', __NAMESPACE__ . '\\render_comment_con
 add_filter( 'facetwp_facet_html', __NAMESPACE__ . '\\render_rating_facet_filter', 10, 2 );
 add_filter( 'facetwp_sort_options', __NAMESPACE__ . '\\facetwp_sort_options' );
 
+add_action( 'save_post', __NAMESPACE__ . '\\facetwp_reset_post' );
+
 /**
  * Enqueue styles and scripts for single template.
  *
@@ -293,3 +295,22 @@ function facetwp_sort_options( $options ) {
 
 	return $options;
 }
+
+/**
+ * Reset facetwp when new post is created or existing is updated or deleted. Action including re-index for the post and clear facetwp cache.
+ *
+ * @param [number] $post_id ID of the post that has been created or updated.
+ * @return void
+ */
+function facetwp_reset_post( $post_id ) {
+	if ( wp_is_post_revision( $post_id ) ) {
+		return;
+	}
+	if ( function_exists( 'FWP' ) ) {
+		FWP()->indexer->index( $post_id );
+	}
+
+	if ( function_exists( 'FWP_Cache' ) ) {
+		FWP_Cache()->cleanup( 'all' );
+	}
+}//end facetwp_reset_post()
