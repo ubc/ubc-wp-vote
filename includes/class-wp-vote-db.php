@@ -149,8 +149,11 @@ class WP_Vote_DB {
 	 */
 	public static function get_vote_metas_for_user_posts( $args ) {
 		global $wpdb;
-		$post_table_name   = sanitize_key( $wpdb->prefix . 'posts' );
-		$global_table_name = sanitize_key( $wpdb->base_prefix . 'ubc_wp_vote' );
+		$post_table_name      = sanitize_key( $wpdb->prefix . 'posts' );
+		$global_table_name    = sanitize_key( $wpdb->base_prefix . 'ubc_wp_vote' );
+
+		// UBC Blogs and CMS databased is sharded. In order not to break local environment. Local environment need to have a constant need to set to true in config.php file.
+		$global_database_name = defined( 'UBC_WP_VOTE_LOCAL' ) && UBC_WP_VOTE_LOCAL ? '' : 'wpmu_global.';
 
 		if ( ! isset( $args['user_id'] ) || ! isset( $args['site_id'] ) || ! isset( $args['rubric_id'] ) ) {
 			return false;
@@ -166,7 +169,7 @@ class WP_Vote_DB {
 				SELECT vote_data FROM 
 				( SELECT * FROM $post_table_name WHERE post_author = %d AND post_status = 'publish' ) AS posts
 				LEFT JOIN
-				( SELECT * FROM $global_table_name WHERE site_id = %d AND rubric_id = %d AND object_type != 'comment' ) AS votes
+				( SELECT * FROM $global_database_name$global_table_name WHERE site_id = %d AND rubric_id = %d AND object_type != 'comment' ) AS votes
 				on posts.ID = votes.object_id
 				WHERE vote_data IS NOT NULL
 				",
