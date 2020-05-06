@@ -153,7 +153,7 @@ class WP_Vote_DB {
 		$global_table_name    = sanitize_key( $wpdb->base_prefix . 'ubc_wp_vote' );
 
 		// UBC Blogs and CMS databased is sharded. In order not to break local environment. Local environment need to have a constant need to set to true in config.php file.
-		$global_database_name = defined( 'UBC_WP_VOTE_LOCAL' ) && UBC_WP_VOTE_LOCAL ? '' : 'wpmu_global.';
+		$global_database_name = defined( 'UBC_WP_VOTE_DB_GLOBAL' ) && '' !== trim( UBC_WP_VOTE_DB_GLOBAL ) ? UBC_WP_VOTE_DB_GLOBAL : '';
 
 		if ( ! isset( $args['user_id'] ) || ! isset( $args['site_id'] ) || ! isset( $args['rubric_id'] ) ) {
 			return false;
