@@ -142,7 +142,7 @@ function filter_user_columns_content( $output, $column_name, $user_id ) {
 		case 'post_ratings':
 			$rubric = get_page_by_title( 'Rating', 'OBJECT', 'ubc_wp_vote_rubric' );
 			if ( ! $rubric ) {
-				return 0;
+				return 'N/A';
 			}
 			$query_results = \UBC\CTLT\WPVote\WP_Vote_DB::get_vote_metas_for_user_posts(
 				array(
@@ -151,8 +151,8 @@ function filter_user_columns_content( $output, $column_name, $user_id ) {
 					'rubric_id' => intval( $rubric->ID ),
 				)
 			);
-			if ( false === $query_results ) {
-				return 0;
+			if ( false === $query_results || 0 === count( $query_results ) ) {
+				return 'N/A';
 			}
 			$vote_total = array_reduce(
 				$query_results,
