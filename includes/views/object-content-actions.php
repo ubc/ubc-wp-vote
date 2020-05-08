@@ -83,9 +83,8 @@ if ( $is_thumb_down_valid ) {
 	<hr>
 <?php endif; ?>
 
-<?php if ( is_user_logged_in() ) : ?>
-	<div class="ubc-wp-vote__thumbs" data-id="<?php echo esc_attr( $object_id ); ?>" data-type="<?php echo esc_attr( $object_type ); ?>">
-
+<div class="ubc-wp-vote__thumbs" data-id="<?php echo esc_attr( $object_id ); ?>" data-type="<?php echo esc_attr( $object_type ); ?>">
+	<?php if ( is_user_logged_in() ) : ?>
 		<?php if ( $is_thumb_up_valid ) : ?>
 			<button class="ubc_wp-vote__action ubc-wp-vote__thumbs-up<?php echo 1 === intval( $current_user_thumbs_up ) ? ' active' : ''; ?>">
 				<span class="dashicons dashicons-thumbs-up"></span>
@@ -97,12 +96,12 @@ if ( $is_thumb_down_valid ) {
 				<span class="dashicons dashicons-thumbs-down"></span>
 			</button>
 		<?php endif; ?>
+	<?php endif; ?>
 
-		<?php if ( $is_thumb_up_valid || $is_thumb_down_valid ) : ?>
-			<span>( <?php echo wp_kses( join( ' and ', $summary ), array( 'span' => array( 'class' => array() ) ) ); ?> )</span>
-		<?php endif; ?>
-	</div>
-<?php endif; ?>
+	<?php if ( $is_thumb_up_valid || $is_thumb_down_valid ) : ?>
+		<span>( <?php echo wp_kses( join( ' and ', $summary ), array( 'span' => array( 'class' => array() ) ) ); ?> )</span>
+	<?php endif; ?>
+</div>
 
 <?php if ( $is_rating_valid ) : ?>
 	<div class="ubc-wp-vote__star-rating" data-id="<?php echo esc_attr( $object_id ); ?>" data-type="<?php echo esc_attr( $object_type ); ?>">
