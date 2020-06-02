@@ -10,10 +10,6 @@ if ( ! isset( $object_id ) || ! isset( $object_type ) ) {
 	return;
 }
 
-if ( ! \UBC\CTLT\WPVote\WP_Vote_Settings::is_allow_vote_own_object() && \UBC\CTLT\WPVote\WP_Vote::is_current_user_object( $object_type, $object_id ) ) {
-	return;
-}
-
 require_once 'wp-admin/includes/template.php';
 
 $object_id   = intval( $object_id );
@@ -88,7 +84,7 @@ if ( $is_thumb_down_valid ) {
 <?php endif; ?>
 
 <div class="ubc-wp-vote__thumbs" data-id="<?php echo esc_attr( $object_id ); ?>" data-type="<?php echo esc_attr( $object_type ); ?>">
-	<?php if ( is_user_logged_in() ) : ?>
+	<?php if ( is_user_logged_in() && ( \UBC\CTLT\WPVote\WP_Vote_Settings::is_allow_vote_own_object() || ! \UBC\CTLT\WPVote\WP_Vote::is_current_user_object( $object_type, $object_id ) ) ) : ?>
 		<?php if ( $is_thumb_up_valid ) : ?>
 			<button class="ubc_wp-vote__action ubc-wp-vote__thumbs-up<?php echo 1 === intval( $current_user_thumbs_up ) ? ' active' : ''; ?>">
 				<span class="dashicons dashicons-thumbs-up"></span>
@@ -109,8 +105,8 @@ if ( $is_thumb_down_valid ) {
 
 <?php if ( $is_rating_valid ) : ?>
 	<div class="ubc-wp-vote__star-rating" data-id="<?php echo esc_attr( $object_id ); ?>" data-type="<?php echo esc_attr( $object_type ); ?>">
-		<p><?php esc_html_e( 'Rate this content' ); ?>:</p>
-		<?php if ( is_user_logged_in() ) : ?>
+		<?php if ( is_user_logged_in() && ( \UBC\CTLT\WPVote\WP_Vote_Settings::is_allow_vote_own_object() || ! \UBC\CTLT\WPVote\WP_Vote::is_current_user_object( $object_type, $object_id ) ) ) : ?>
+			<p><?php esc_html_e( 'Rate this content' ); ?>:</p>
 			<div class="ubc-wp-vote_star_rating--current">
 			<?php
 				$args = array(
