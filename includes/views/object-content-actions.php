@@ -10,6 +10,10 @@ if ( ! isset( $object_id ) || ! isset( $object_type ) ) {
 	return;
 }
 
+if ( ! \UBC\CTLT\WPVote\WP_Vote_Settings::is_allow_vote_own_object() && \UBC\CTLT\WPVote\WP_Vote::is_current_user_object( $object_type, $object_id ) ) {
+	return;
+}
+
 require_once 'wp-admin/includes/template.php';
 
 $object_id   = intval( $object_id );

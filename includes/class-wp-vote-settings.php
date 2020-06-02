@@ -23,7 +23,7 @@ class WP_Vote_Settings {
 	 * $default_rubrics.
 	 *
 	 * @since 0.0.1
-	 * @var array $var Default rubrics required by plugin.
+	 * @var array $default_rubrics Default rubrics required by plugin.
 	 */
 	private static $default_rubrics;
 
@@ -31,9 +31,17 @@ class WP_Vote_Settings {
 	 * $post_types_to_exclude.
 	 *
 	 * @since 0.0.1
-	 * @var array $var Post types to be excluded to activate plugin functionality.
+	 * @var array $post_types_to_exclude Post types to be excluded to activate plugin functionality.
 	 */
 	private static $post_types_to_exclude;
+
+	/**
+	 * $allow_vote_own_object
+	 *
+	 * @since 0.0.1
+	 * @var boolean $allow_vote_own_object Whether allow user to vote their own post and comments.
+	 */
+	private static $allow_vote_own_object;
 
 	/**
 	 * Initiate class.
@@ -59,6 +67,7 @@ class WP_Vote_Settings {
 			),
 		);
 		self::$post_types_to_exclude = array( 'attachment', 'ubc_wp_vote_rubric' );
+		self::$allow_vote_own_object = boolval( apply_filters( 'ubc_wp_vote_allow_vote_own_object', false ) );
 
 		if ( is_admin() ) {
 			add_action( 'admin_init', '\UBC\CTLT\WPVote\WP_Vote_Settings::register_admin_settings' );
@@ -66,6 +75,15 @@ class WP_Vote_Settings {
 			add_action( 'save_post', '\UBC\CTLT\WPVote\WP_Vote_Settings::save_meta_boxes' );
 		}
 	}//end init()
+
+	/**
+	 * Whether allow user to vote their own post and comments.
+	 *
+	 * @return boolean
+	 */
+	public static function is_allow_vote_own_object() {
+		return self::$allow_vote_own_object;
+	}//end is_allow_vote_own_object()
 
 	/**
 	 * Register plugin settings.
