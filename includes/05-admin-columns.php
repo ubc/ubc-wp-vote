@@ -176,16 +176,14 @@ function filter_user_columns_content( $output, $column_name, $user_id ) {
 			if ( ! $rubric_upvote || ! $rubric_downvote ) {
 				return 'N/A';
 			}
-			$records_upvote = \UBC\CTLT\WPVote\WP_Vote_DB::get_vote_meta(
+			$records_upvote = \UBC\CTLT\WPVote\WP_Vote_DB::get_vote_metas_for_user_comments(
 				array(
 					'user_id'     => intval( $user_id ),
 					'site_id'     => intval( get_current_blog_id() ),
 					'rubric_id'   => intval( $rubric_upvote->ID ),
-					'vote_data'   => '1',
-					'object_type' => 'comment',
 				)
 			);
-			$records_downvote = \UBC\CTLT\WPVote\WP_Vote_DB::get_vote_meta(
+			$records_downvote = \UBC\CTLT\WPVote\WP_Vote_DB::get_vote_metas_for_user_comments(
 				array(
 					'user_id'     => intval( $user_id ),
 					'site_id'     => intval( get_current_blog_id() ),

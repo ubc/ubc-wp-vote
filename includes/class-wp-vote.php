@@ -90,7 +90,7 @@ class WP_Vote {
 		$object_id   = intval( $args['object_id'] );
 		$object_type = sanitize_key( $args['object_type'] );
 
-		if ( ! $rubric ) {
+		if ( ! $rubric || ( ! \UBC\CTLT\WPVote\WP_Vote_Settings::is_allow_vote_own_object() && self::is_current_user_object( $object_type, $object_id ) ) ) {
 			return false;
 		}
 
@@ -173,7 +173,7 @@ class WP_Vote {
 		$object_id   = intval( $args['object_id'] );
 		$object_type = sanitize_key( $args['object_type'] );
 
-		if ( ! $rubric ) {
+		if ( ! $rubric || ( ! \UBC\CTLT\WPVote\WP_Vote_Settings::is_allow_vote_own_object() && self::is_current_user_object( $object_type, $object_id ) ) ) {
 			return false;
 		}
 
@@ -279,7 +279,7 @@ class WP_Vote {
 		$object_type = sanitize_key( $args['object_type'] );
 		$vote_data   = intval( $args['vote_data'] );
 
-		if ( ! $rubric ) {
+		if ( ! $rubric || ( ! \UBC\CTLT\WPVote\WP_Vote_Settings::is_allow_vote_own_object() && self::is_current_user_object( $object_type, $object_id ) ) ) {
 			return false;
 		}
 
@@ -500,4 +500,23 @@ class WP_Vote {
 
 		return true;
 	}//end update_meta_type_toggle()
+
+	/**
+	 * Check if object belongs to current user
+	 *
+	 * @param [string] $object_type type of the object( post or comment ).
+	 * @param [number] $object_id ID of the object to attached metadata to.
+	 * @return boolean
+	 */
+	public static function is_current_user_object( $object_type, $object_id ) {
+		if ( 'comment' !== $object_type ) {
+			$object    = get_post( $object_id );
+			$author_id = $object->post_author;
+		} else {
+			$object    = get_comment( $object_id );
+			$author_id = $object->user_id;
+		}
+
+		return intval( get_current_user_id() ) === intval( $author_id );
+	}
 }

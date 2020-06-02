@@ -66,7 +66,7 @@
         var rootNode = element.closest('.ubc-wp-vote__thumbs');
         var objectId = rootNode.dataset.id;
         var objectType = rootNode.dataset.type;
-        var totalNode = rootNode.querySelector('.ubc-wp-vote_thumbs-up-total');
+        var totalNode = rootNode.querySelector('.ubc-wp-vote_thumbs-down-total');
 
         var data = {
             action: 'ubc_ctlt_wp_vote_downvote',

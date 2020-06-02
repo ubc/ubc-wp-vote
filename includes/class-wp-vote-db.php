@@ -171,7 +171,7 @@ class WP_Vote_DB {
 				LEFT JOIN
 				( SELECT * FROM $global_database_name$global_table_name WHERE site_id = %d AND rubric_id = %d AND object_type != 'comment' ) AS votes
 				on posts.ID = votes.object_id
-				WHERE vote_data IS NOT NULL
+				WHERE vote_data IS NOT NULL AND vote_data != 0
 				",
 				$author_id,
 				$site_id,
@@ -190,4 +190,54 @@ class WP_Vote_DB {
 			$result
 		);
 	}//end get_vote_metas_for_user_posts()
+
+	/**
+	 * Get vote data for all the comments created by a single user.
+	 *
+	 * @param [array] $args args including user_id, site_id and rubric_id.
+	 * @return boolean|array
+	 */
+	public static function get_vote_metas_for_user_comments( $args ) {
+		global $wpdb;
+		$comment_table_name      = sanitize_key( $wpdb->prefix . 'comments' );
+		$global_table_name    = sanitize_key( $wpdb->base_prefix . 'ubc_wp_vote' );
+
+		// UBC Blogs and CMS databased is sharded. In order not to break local environment. Local environment need to have a constant need to set to true in config.php file.
+		$global_database_name = defined( 'UBC_WP_VOTE_DB_GLOBAL' ) && '' !== trim( UBC_WP_VOTE_DB_GLOBAL ) ? esc_sql( trim( UBC_WP_VOTE_DB_GLOBAL ) ) : '';
+
+		if ( ! isset( $args['user_id'] ) || ! isset( $args['site_id'] ) || ! isset( $args['rubric_id'] ) ) {
+			return false;
+		}
+
+		$author_id = intval( $args['user_id'] );
+		$site_id   = intval( $args['site_id'] );
+		$rubric_id = intval( $args['rubric_id'] );
+
+		$result = $wpdb->get_results(
+			$wpdb->prepare(
+				"
+				SELECT vote_data FROM 
+				( SELECT * FROM $comment_table_name WHERE user_id = %d AND comment_approved = 1 ) AS comments
+				LEFT JOIN
+				( SELECT * FROM $global_database_name$global_table_name WHERE site_id = %d AND rubric_id = %d AND object_type = 'comment' ) AS votes
+				on comments.comment_ID = votes.object_id
+				WHERE vote_data IS NOT NULL AND vote_data != 0
+				",
+				$author_id,
+				$site_id,
+				$rubric_id
+			)
+		);
+
+		if ( null === $result ) {
+			return false;
+		}
+
+		return array_map(
+			function( $row ) {
+				return $row->vote_data;
+			},
+			$result
+		);
+	}//end get_vote_metas_for_user_comments()
 }
