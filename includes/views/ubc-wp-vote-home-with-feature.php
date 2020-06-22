@@ -34,7 +34,7 @@ do_action( 'ubc_wp_vote_template_home' );
 		<div class="facetwp-template__single">
 			<div class="facetwp-template__single--overview">
 				<div class="facetwp-template__single--avatar">
-					<img src="<?php echo esc_url( get_avatar_url( get_the_ID() ) ); ?>" alt="post author avatar image">
+					<img src="<?php echo esc_url( get_avatar_url( get_the_author_meta( 'ID' ) ) ); ?>" alt="post author avatar image">
 				</div>
 				<div class="facetwp-template__single--status">
 					<div>
