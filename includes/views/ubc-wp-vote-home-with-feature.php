@@ -75,7 +75,7 @@ do_action( 'ubc_wp_vote_template_home' );
 				?>
 				<div class="facetwp-template__single--meta">
 					<?php echo join( ' | ', $terms ); ?>
-					<p><i><?php echo esc_html( get_the_date( 'F j, Y' ) ); ?>, <strong><?php echo esc_html( get_the_author() ); ?></strong></i></p>
+					<p><i><?php echo esc_html( get_the_date( 'F j, Y' ) ); ?>, <strong><?php the_author_posts_link(); ?></p></strong></i></p>
 				</div>
 			<?php endif; ?>
 
