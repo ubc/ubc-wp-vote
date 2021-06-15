@@ -15,10 +15,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 add_action( 'wp_enqueue_scripts', __NAMESPACE__ . '\\load_styles_scripts_single' );
 add_action( 'ubc_wp_vote_setting_metabox', __NAMESPACE__ . '\\load_styles_scripts_meta_box' );
 add_action( 'ubc_wp_vote_template_home', __NAMESPACE__ . '\\load_styles_scripts_home' );
-add_action( 'wp-hybrid-clf_after_entry', __NAMESPACE__ . '\\render_post_content_actions' );
-add_action( 'wp-hybrid-clf_after_comment', __NAMESPACE__ . '\\render_comment_content_actions' );
 add_filter( 'facetwp_facet_html', __NAMESPACE__ . '\\render_rating_facet_filter', 10, 2 );
 add_filter( 'facetwp_sort_options', __NAMESPACE__ . '\\facetwp_sort_options' );
+
+add_filter( 'the_content', __NAMESPACE__ . '\\filter_post_content_actions', 1 );
+add_filter( 'comment_text', __NAMESPACE__ . '\\filter_comment_content_actions', 1 );
+remove_filter( 'comment_text', 'wpautop', 30 );
 
 add_action( 'save_post', __NAMESPACE__ . '\\facetwp_reset_post' );
 
@@ -108,7 +110,7 @@ function load_styles_scripts_meta_box() {
  *
  * @return void
  */
-function render_post_content_actions() {
+function filter_post_content_actions( $content ) {
 	if ( ! is_singular() ) {
 		return;
 	}
@@ -116,15 +118,18 @@ function render_post_content_actions() {
 	$object_type = get_post_type();
 	$object_id   = get_the_ID();
 
+	ob_start();
 	include UBC_WP_VOTE_PLUGIN_DIR . 'includes/views/object-content-actions.php';
-}//end render_post_content_actions()
+
+	return $content . ob_get_clean();
+}//end filter_post_content_actions()
 
 /**
  * Render rubric actions at the bottom of comment content area.
  *
  * @return void
  */
-function render_comment_content_actions() {
+function filter_comment_content_actions( $content ) {
 	if ( ! is_singular() ) {
 		return;
 	}
@@ -132,8 +137,11 @@ function render_comment_content_actions() {
 	$object_type = 'comment';
 	$object_id   = get_comment_ID();
 
+	ob_start();
 	include UBC_WP_VOTE_PLUGIN_DIR . 'includes/views/object-content-actions.php';
-}//end render_comment_content_actions()
+
+	return $content . ob_get_clean();
+}//end filter_comment_content_actions()
 
 /**
  * Facet WP - change the output html for rating filter facet type.
