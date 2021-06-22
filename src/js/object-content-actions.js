@@ -15,10 +15,6 @@
         });
     }
 
-    function getNodeIndex (element) {
-        return Array.from(element.parentNode.childNodes).indexOf(element);
-      }
-
     // Vote
     document.addEventListener('click', function ( event ) {
 
@@ -100,7 +96,7 @@
             var objectType = rootNode.dataset.type;
 
             var ratingNode = rootNode.querySelector('.ubc-wp-vote__rating');
-            var newCurrentRating = getNodeIndex( event.target );
+            var newCurrentRating = Array.from(event.target.parentNode.querySelectorAll('.star')).indexOf(event.target) + 1;
             var newRatingAverage = parseFloat( ratingNode.dataset.current_average ) === 0 ? ( parseFloat( ratingNode.dataset.overall_average ) * parseInt( ratingNode.dataset.overall_count ) + newCurrentRating ) / ( parseInt( ratingNode.dataset.overall_count ) + 1 ) : ( parseFloat( ratingNode.dataset.overall_average ) * parseInt( ratingNode.dataset.overall_count ) + newCurrentRating - parseInt( ratingNode.dataset.current_average ) ) / parseInt( ratingNode.dataset.overall_count );
 
             var data = {
