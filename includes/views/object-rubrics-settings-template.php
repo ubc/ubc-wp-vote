@@ -6,13 +6,13 @@
 	 * @package ubc_wp_vote
 	 */
 
-	$rubrics = \UBC\CTLT\WPVote\WP_Vote_Settings::get_rubrics_options();
+	$rubrics      = \UBC\CTLT\WPVote\WP_Vote_Settings::get_rubrics_options();
 	do_action( 'ubc_wp_vote_setting_metabox' );
 ?>
 
 <section class="ubc-wp-vote-metabox">
 	<label for="">
-		<?php esc_html_e( 'Rubrics for' ); ?> <?php echo esc_html( $object_title ); ?>?
+		<?php esc_html_e( $rubrics_label . 's for' ); ?> <?php echo esc_html( $object_title ); ?>?
 	</label>
 
 		<ul

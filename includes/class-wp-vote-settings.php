@@ -36,14 +36,6 @@ class WP_Vote_Settings {
 	private static $post_types_to_exclude;
 
 	/**
-	 * $allow_vote_own_object
-	 *
-	 * @since 0.0.1
-	 * @var boolean $allow_vote_own_object Whether allow user to vote their own post and comments.
-	 */
-	private static $allow_vote_own_object;
-
-	/**
 	 * Initiate class.
 	 *
 	 * @return void
@@ -67,7 +59,6 @@ class WP_Vote_Settings {
 			),
 		);
 		self::$post_types_to_exclude = array( 'attachment', 'ubc_wp_vote_rubric' );
-		self::$allow_vote_own_object = boolval( apply_filters( 'ubc_wp_vote_allow_vote_own_object', false ) );
 
 		if ( is_admin() ) {
 			add_action( 'admin_init', '\UBC\CTLT\WPVote\WP_Vote_Settings::register_admin_settings' );
@@ -82,7 +73,7 @@ class WP_Vote_Settings {
 	 * @return boolean
 	 */
 	public static function is_allow_vote_own_object() {
-		return self::$allow_vote_own_object;
+		return apply_filters( 'ubc_wp_vote_allow_vote_own_object', false );
 	}//end is_allow_vote_own_object()
 
 	/**
@@ -102,7 +93,8 @@ class WP_Vote_Settings {
 	 */
 	public static function add_meta_boxes() {
 		global $post;
-		$post_types = self::get_object_types_options();
+		$post_types    = self::get_object_types_options();
+		$rubrics_label = apply_filters( 'ubc_wp_vote_rubric_label', 'Rubric' );
 
 		// Quit if post type is not submission.
 		if ( ! $post || ! in_array( $post->post_type, array_keys( $post_types ), true ) ) {
@@ -111,17 +103,19 @@ class WP_Vote_Settings {
 
 		add_meta_box(
 			'ubc_wp_vote_valid_post_type',
-			'Rubrics',
-			function() {
+			$rubrics_label . 's',
+			function() use( $rubrics_label ) {
 				// Post metafields.
 				$option_name  = 'ubc-wp-vote-settings-';
 				$object_title = 'POST';
 				include UBC_WP_VOTE_PLUGIN_DIR . 'includes/views/object-rubrics-settings-template.php';
 
-				// Comment metafields.
-				$option_name  = 'ubc-wp-vote-settings-comment-';
-				$object_title = 'COMMENT';
-				include UBC_WP_VOTE_PLUGIN_DIR . 'includes/views/object-rubrics-settings-template.php';
+				if ( apply_filters( 'ubc_wp_vote_is_allow_comments', true ) ) {
+					// Comment metafields.
+					$option_name  = 'ubc-wp-vote-settings-comment-';
+					$object_title = 'COMMENT';
+					include UBC_WP_VOTE_PLUGIN_DIR . 'includes/views/object-rubrics-settings-template.php';
+				}
 			},
 			null,
 			'side'
@@ -225,11 +219,12 @@ class WP_Vote_Settings {
 	 */
 	public static function get_rubrics_options() {
 		$args    = array(
-			'numberposts' => apply_filters( 'ubc_wp_vote_get_rubrics_options_numberposts', 30 ),
+			'numberposts' => 30,
 			'post_type'   => 'ubc_wp_vote_rubric',
 			'post_status' => 'publish',
 		);
-		$rubrics = get_posts( $args );
+		$args = apply_filters( 'ubc_wp_vote_get_rubric_option_args', $args );
+		$rubrics = apply_filters( 'ubc_wp_vote_get_rubric_options', get_posts( $args ) );
 
 		return array_map(
 			function( $rubric ) {

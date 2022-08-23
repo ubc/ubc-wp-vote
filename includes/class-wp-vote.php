@@ -302,7 +302,7 @@ class WP_Vote {
 	 * @param [string] $vote_data value of vote data.
 	 * @return {boolean|array} array of mixd values on success, false on fail
 	 */
-	private static function update_meta_type_average( $user_id, $site_id, $rubric_id, $object_id, $object_type, $vote_data ) {
+	public static function update_meta_type_average( $user_id, $site_id, $rubric_id, $object_id, $object_type, $vote_data ) {
 		$meta_key_count   = 'ubc_wp_vote_' . $rubric_id . '_count';
 		$meta_key_total   = 'ubc_wp_vote_' . $rubric_id . '_total';
 		$meta_key_average = 'ubc_wp_vote_' . $rubric_id . '_average';
@@ -450,7 +450,7 @@ class WP_Vote {
 	 * @param [string] $object_type type of the object( post or comment ).
 	 * @return {boolean} True on success, false on fail
 	 */
-	private static function update_meta_type_toggle( $user_id, $site_id, $rubric_id, $object_id, $object_type ) {
+	public static function update_meta_type_toggle( $user_id, $site_id, $rubric_id, $object_id, $object_type ) {
 		$meta_key = 'ubc_wp_vote_' . $rubric_id . '_total';
 
 		// Toggle the value found in the database.
