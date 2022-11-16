@@ -14,7 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 // Hooks.
 add_action( 'wp_ajax_ubc_ctlt_wp_vote_upvote', __NAMESPACE__ . '\\ubc_ctlt_wp_vote_upvote' );
-add_action( 'wp_ajax_ubc_ctlt_wp_vote_downvote', __NAMESPACE__ . '\\ubc_ctlt_wp_vote_downvote' );\
+add_action( 'wp_ajax_ubc_ctlt_wp_vote_downvote', __NAMESPACE__ . '\\ubc_ctlt_wp_vote_downvote' );
 add_action( 'wp_ajax_ubc_ctlt_wp_vote_rating', __NAMESPACE__ . '\\ubc_ctlt_wp_vote_rating' );
 
 /**
