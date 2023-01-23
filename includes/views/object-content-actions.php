@@ -85,21 +85,10 @@ if ( $is_thumb_down_valid ) {
 
 <div class="ubc-wp-vote__thumbs" data-id="<?php echo esc_attr( $object_id ); ?>" data-type="<?php echo esc_attr( $object_type ); ?>">
 	<?php if ( is_user_logged_in() && ( \UBC\CTLT\WPVote\WP_Vote_Settings::is_allow_vote_own_object() || ! \UBC\CTLT\WPVote\WP_Vote::is_current_user_object( $object_type, $object_id ) ) ) : ?>
-		<?php if ( $is_thumb_up_valid ) : ?>
-			<button class="ubc_wp-vote__action ubc-wp-vote__thumbs-up<?php echo 1 === intval( $current_user_thumbs_up ) ? ' active' : ''; ?>">
-				<span class="dashicons dashicons-thumbs-up"></span>
-			</button>
-		<?php endif; ?>
-
-		<?php if ( $is_thumb_down_valid ) : ?>
-			<button class="ubc_wp-vote__action ubc-wp-vote__thumbs-down<?php echo 1 === intval( $current_user_thumbs_down ) ? ' active' : ''; ?>">
-				<span class="dashicons dashicons-thumbs-down"></span>
-			</button>
-		<?php endif; ?>
+<?php if ( $is_thumb_up_valid ) : ?><button class="ubc_wp-vote__action ubc-wp-vote__thumbs-up<?php echo 1 === intval( $current_user_thumbs_up ) ? ' active' : ''; ?>"><span class="dashicons dashicons-thumbs-up"></span></button><?php endif; ?><?php if ( $is_thumb_down_valid ) : ?><button class="ubc_wp-vote__action ubc-wp-vote__thumbs-down<?php echo 1 === intval( $current_user_thumbs_down ) ? ' active' : ''; ?>"><span class="dashicons dashicons-thumbs-down"></span></button><?php endif; ?>
 	<?php endif; ?>
-
 	<?php if ( $is_thumb_up_valid || $is_thumb_down_valid ) : ?>
-		<span>( <?php echo wp_kses( join( ' and ', $summary ), array( 'span' => array( 'class' => array() ) ) ); ?> )</span>
+<span>( <?php echo wp_kses( join( ' and ', $summary ), array( 'span' => array( 'class' => array() ) ) ); ?> )</span>
 	<?php endif; ?>
 </div>
 
@@ -117,16 +106,6 @@ if ( $is_thumb_down_valid ) {
 				?>
 				</div>
 		<?php endif; ?>
-
-		<span class="ubc-wp-vote__star-rating--overall">
-			(&nbsp;<?php esc_html_e( 'Average Rating' ); ?>: 
-			<span
-				class="ubc-wp-vote__rating"
-				data-current_average="<?php echo $current_user_rating ? floatval( $current_user_rating ) : 0; ?>"
-				data-overall_count="<?php echo $total_rating_count ? intval( $total_rating_count ) : 0; ?>"
-				data-overall_average="<?php echo $total_rating ? floatval( $total_rating ) : 0; ?>"
-			><?php echo floatval( $total_rating ); ?></span>
-			&nbsp;)
-		</span>
+<span class="ubc-wp-vote__star-rating--overall">(&nbsp;<?php esc_html_e( 'Average Rating' ); ?>: <span class="ubc-wp-vote__rating" data-current_average="<?php echo $current_user_rating ? floatval( $current_user_rating ) : 0; ?>" data-overall_count="<?php echo $total_rating_count ? intval( $total_rating_count ) : 0; ?>" data-overall_average="<?php echo $total_rating ? floatval( $total_rating ) : 0; ?>"><?php echo floatval( $total_rating ); ?></span>&nbsp;)</span>
 	</div>
 <?php endif; ?>

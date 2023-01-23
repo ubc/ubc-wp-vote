@@ -25,10 +25,15 @@
 
 .ubc-wp-vote__thumbs .ubc_wp-vote__action{
     background-color: transparent;
-	padding: .5rem 1rem;
 	width: 40px;
 	height: 40px;
 	padding: 0;
+	margin-right: 0.25em;
+	margin-bottom: 1em;
+}
+
+.star-rating p:empty {
+	display: none;
 }
 
 .avatar{
@@ -53,7 +58,7 @@
 }
 
 .ubc-wp-vote__star-rating > * {
-	margin-right: 1rem;
+	margin-right: 0.5rem;
 	margin-bottom: 0;
 }
 

@@ -20,7 +20,11 @@ add_filter( 'facetwp_sort_options', __NAMESPACE__ . '\\facetwp_sort_options' );
 
 add_filter( 'the_content', __NAMESPACE__ . '\\filter_post_content_actions', 1 );
 add_filter( 'comment_text', __NAMESPACE__ . '\\filter_comment_content_actions', 1 );
-remove_filter( 'comment_text', 'wpautop', 30 );
+
+// Removed the below filter as it was preventing line-breaks in comments which are super necessary
+// in most cases. This has essentially been replaced by removing whitespace from the template file
+// Which stopped wpautop from adding <br> and empty <p> tags.
+// remove_filter( 'comment_text', 'wpautop', 30 );
 
 add_action( 'save_post', __NAMESPACE__ . '\\facetwp_reset_post' );
 
