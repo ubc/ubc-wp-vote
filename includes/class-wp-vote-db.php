@@ -23,13 +23,22 @@ class WP_Vote_DB {
 	 */
 	public static function create_tables() {
 		global $wpdb;
-		$charset_collate = sanitize_text_field( $wpdb->get_charset_collate() );
-		$table_name      = sanitize_key( $wpdb->base_prefix . 'ubc_wp_vote' );
+		$charset_collate = $wpdb->get_charset_collate();
+		$table_name      = $wpdb->base_prefix . 'ubc_wp_vote';
 
-		$sql = "CREATE TABLE IF NOT EXISTS $table_name ( id INT NOT NULL AUTO_INCREMENT, user_id INT NOT NULL, site_id INT NOT NULL, object_id INT NOT NULL, object_type VARCHAR(10) NOT NULL, rubric_id INT NOT NULL, vote_data LONGTEXT NOT NULL, UNIQUE KEY id (id) ) $charset_collate;";
+		$sql = "CREATE TABLE $table_name (
+			id bigint(20) NOT NULL AUTO_INCREMENT,
+			user_id bigint(20) NOT NULL,
+			site_id bigint(20) NOT NULL,
+			object_id bigint(20) NOT NULL,
+			object_type varchar(30) NOT NULL,
+			rubric_id bigint(20) NOT NULL,
+			vote_data longtext NOT NULL,
+			PRIMARY KEY  (id)
+		) $charset_collate;";
 
 		require_once ABSPATH . 'wp-admin/includes/upgrade.php';
-		dbDelta( esc_sql( $sql ) );
+		dbDelta( $sql );
 	}//end create_tables()
 
 	/**
@@ -149,8 +158,8 @@ class WP_Vote_DB {
 	 */
 	public static function get_vote_metas_for_user_posts( $args ) {
 		global $wpdb;
-		$post_table_name      = sanitize_key( $wpdb->prefix . 'posts' );
-		$global_table_name    = sanitize_key( $wpdb->base_prefix . 'ubc_wp_vote' );
+		$post_table_name   = sanitize_key( $wpdb->prefix . 'posts' );
+		$global_table_name = sanitize_key( $wpdb->base_prefix . 'ubc_wp_vote' );
 
 		// UBC Blogs and CMS databased is sharded. In order not to break local environment. Local environment need to have a constant need to set to true in config.php file.
 		$global_database_name = defined( 'UBC_WP_VOTE_DB_GLOBAL' ) && '' !== trim( UBC_WP_VOTE_DB_GLOBAL ) ? esc_sql( trim( UBC_WP_VOTE_DB_GLOBAL ) ) : '';
@@ -184,7 +193,7 @@ class WP_Vote_DB {
 		}
 
 		return array_map(
-			function( $row ) {
+			function ( $row ) {
 				return $row->vote_data;
 			},
 			$result
@@ -199,8 +208,8 @@ class WP_Vote_DB {
 	 */
 	public static function get_vote_metas_for_user_comments( $args ) {
 		global $wpdb;
-		$comment_table_name      = sanitize_key( $wpdb->prefix . 'comments' );
-		$global_table_name    = sanitize_key( $wpdb->base_prefix . 'ubc_wp_vote' );
+		$comment_table_name = sanitize_key( $wpdb->prefix . 'comments' );
+		$global_table_name  = sanitize_key( $wpdb->base_prefix . 'ubc_wp_vote' );
 
 		// UBC Blogs and CMS databased is sharded. In order not to break local environment. Local environment need to have a constant need to set to true in config.php file.
 		$global_database_name = defined( 'UBC_WP_VOTE_DB_GLOBAL' ) && '' !== trim( UBC_WP_VOTE_DB_GLOBAL ) ? esc_sql( trim( UBC_WP_VOTE_DB_GLOBAL ) ) : '';
@@ -234,7 +243,7 @@ class WP_Vote_DB {
 		}
 
 		return array_map(
-			function( $row ) {
+			function ( $row ) {
 				return $row->vote_data;
 			},
 			$result
