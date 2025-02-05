@@ -116,7 +116,7 @@ function load_styles_scripts_meta_box() {
  */
 function filter_post_content_actions( $content ) {
 	if ( ! is_singular() ) {
-		return;
+		return $content;
 	}
 
 	$object_type = get_post_type();
