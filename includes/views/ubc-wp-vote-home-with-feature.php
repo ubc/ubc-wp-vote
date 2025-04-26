@@ -81,7 +81,6 @@ do_action( 'ubc_wp_vote_template_home' );
 
 			<div class="facetwp-template__single--content">
 				<p class="truncate-overflow"><?php echo esc_html( get_the_excerpt() ); ?></p>
-				<a class="btn btn-primary facetwp-template__single--readmore" href="<?php echo esc_url( get_the_permalink() ); ?>"><?php esc_html_e( 'Read More' ); ?></a>
 			</div>
 			<div class="facetwp-template__single--feature">
 				<a href="<?php echo esc_url( get_the_permalink() ); ?>"><?php the_post_thumbnail( 'thumbnail' ); ?></a>

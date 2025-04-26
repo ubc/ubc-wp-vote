@@ -217,4 +217,8 @@
         height: 1rem;
         background: white;
     }
+
+    .more-link-wrapper {
+        text-align: left;
+    }
 }
